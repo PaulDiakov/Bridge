@@ -9,10 +9,38 @@
             },
             ctors: {
                 init: function () {
-                    this.MAX_SUPPORTED_TIMEOUT = 4294967294;
-                    this.EXC_LESS = "Number must be either non-negative and less than or equal to Int32.MaxValue or -1.";
-                    this.EXC_MORE = "Time-out interval must be less than 2^32-2.";
-                    this.EXC_DISPOSED = "The timer has been already disposed.";
+                    Object.defineProperty(this, "MAX_SUPPORTED_TIMEOUT", {
+                        get: function() {
+                            return this._MAX_SUPPORTED_TIMEOUT$ === undefined ? (this._MAX_SUPPORTED_TIMEOUT$ = 4294967294) : this._MAX_SUPPORTED_TIMEOUT$;
+                        },
+                        set: function(v) {
+                            this._MAX_SUPPORTED_TIMEOUT$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_LESS", {
+                        get: function() {
+                            return this._EXC_LESS$ === undefined ? (this._EXC_LESS$ = "Number must be either non-negative and less than or equal to Int32.MaxValue or -1.") : this._EXC_LESS$;
+                        },
+                        set: function(v) {
+                            this._EXC_LESS$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_MORE", {
+                        get: function() {
+                            return this._EXC_MORE$ === undefined ? (this._EXC_MORE$ = "Time-out interval must be less than 2^32-2.") : this._EXC_MORE$;
+                        },
+                        set: function(v) {
+                            this._EXC_MORE$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_DISPOSED", {
+                        get: function() {
+                            return this._EXC_DISPOSED$ === undefined ? (this._EXC_DISPOSED$ = "The timer has been already disposed.") : this._EXC_DISPOSED$;
+                        },
+                        set: function(v) {
+                            this._EXC_DISPOSED$ = v;
+                        }
+                    });
                 }
             }
         },

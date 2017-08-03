@@ -21,7 +21,7 @@ namespace Bridge.Translator
             this.Emitter = emitter;
             this.MemberReferenceExpression = memberReferenceExpression;
         }
-
+        
         public MemberReferenceExpression MemberReferenceExpression
         {
             get;

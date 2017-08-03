@@ -410,7 +410,15 @@ namespace Bridge.Translator
             {
                 found = true;
             }
-
+            
+            if (assignmentExpression.Left is UnaryOperatorExpression unaryOperatorExpression)
+            {
+                if (unaryOperatorExpression.Operator == UnaryOperatorType.Dereference)
+                {
+                    found = false;
+                }
+            }
+            
             if (assignmentExpression.Operator != AssignmentOperatorType.Any &&
                 assignmentExpression.Operator != AssignmentOperatorType.Assign &&
                 found)

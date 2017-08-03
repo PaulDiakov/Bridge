@@ -135,5 +135,15 @@ namespace System
 
         [Template(Fn = "System.Char.getHashCode")]
         public override extern int GetHashCode();
+
+        public static int ConvertToUtf32(char highSurrogate, char lowSurrogate)
+        {
+            return default(int);
+        }
+
+        public static int ConvertToUtf32(string s, int index)
+        {
+            return default(int);
+        }
     }
 }

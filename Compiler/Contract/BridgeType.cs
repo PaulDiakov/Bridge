@@ -795,6 +795,7 @@ namespace Bridge.Contract
                 replacements.Add("[", "");
                 replacements.Add("]", "");
                 replacements.Add("&", "");
+                replacements.Add("*", "");
 
                 BridgeTypes.convRegex = new Regex("(\\" + String.Join("|\\", replacements.Keys.ToArray()) + ")", RegexOptions.Compiled | RegexOptions.Singleline);
             }

@@ -545,5 +545,30 @@ namespace System
         public static extern byte[] FromBase64CharArray(char[] inArray, int offset, int length);
 
         #endregion FromBase64CharArray
+
+        public static object ChangeType(object value, Type conversionType)
+        {
+            return default(object);
+        }
+
+        public static object ChangeType(object value, TypeCode typeCode)
+        {
+            return default(object);
+        }
+
+        public static object ChangeType(object value, Type conversionType, IFormatProvider provider)
+        {
+            return default(object);
+        }
+
+        public static object ChangeType(object value, TypeCode typeCode, IFormatProvider provider)
+        {
+            return default(object);
+        }
+
+        internal static object ToType(object value, Type conversionType, IFormatProvider provider, bool try_target_to_type)
+        {
+            return default(object);
+        }
     }
 }

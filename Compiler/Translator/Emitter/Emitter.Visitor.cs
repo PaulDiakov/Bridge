@@ -37,6 +37,11 @@ namespace Bridge.Translator
             new VariableBlock(this, variableDeclarationStatement).Emit();
         }
 
+        public override void VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression)
+        {
+            new PointerReferenceBlock(this, pointerReferenceExpression).Emit();
+        }
+
         public override void VisitPrimitiveExpression(PrimitiveExpression primitiveExpression)
         {
             new PrimitiveExpressionBlock(this, primitiveExpression).Emit();
@@ -152,6 +157,11 @@ namespace Bridge.Translator
             new IfElseBlock(this, ifElseStatement).Emit();
         }
 
+        public override void VisitFixedStatement(FixedStatement fixedStatement)
+        {
+            new FixedStatementBlock(this, fixedStatement).Emit();
+        }
+
         public override void VisitForStatement(ForStatement forStatement)
         {
             new ForBlock(this, forStatement).Emit();
@@ -180,6 +190,11 @@ namespace Bridge.Translator
         public override void VisitReturnStatement(ReturnStatement returnStatement)
         {
             new ReturnBlock(this, returnStatement).Emit();
+        }
+
+        public override void VisitSizeOfExpression(SizeOfExpression sizeOfExpression)
+        {
+            new SizeOfExpressionBlock(this, sizeOfExpression).Emit();
         }
 
         public override void VisitThrowStatement(ThrowStatement throwStatement)
@@ -314,6 +329,11 @@ namespace Bridge.Translator
         public override void VisitYieldReturnStatement(YieldReturnStatement yieldReturnStatement)
         {
             new YieldBlock(this, yieldReturnStatement).Emit();
+        }
+
+        public override void VisitUnsafeStatement(UnsafeStatement unsafeStatement)
+        {
+            new UnsafeBlock(this, unsafeStatement).Emit();
         }
 
         public override void VisitUsingStatement(UsingStatement usingStatement)

@@ -114,6 +114,8 @@ namespace Bridge.Contract
 
         Tuple<bool, bool, string> GetInlineCode(ICSharpCode.NRefactory.CSharp.MemberReferenceExpression node);
 
+        Tuple<bool, bool, string> GetInlineCode(ICSharpCode.NRefactory.CSharp.PointerReferenceExpression node);
+
         bool IsForbiddenInvocation(InvocationExpression node);
 
         System.Collections.Generic.IEnumerable<string> GetScript(ICSharpCode.NRefactory.CSharp.EntityDeclaration method);

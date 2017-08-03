@@ -130,7 +130,7 @@ namespace Bridge.Translator
             }
 
             var castToEnum = enumType.Kind == TypeKind.Enum;
-
+            
             if (castToEnum)
             {
                 itype = enumType.GetDefinition().EnumUnderlyingType;
@@ -140,7 +140,7 @@ namespace Bridge.Translator
                     itype = this.Emitter.Resolver.Compilation.FindType(KnownTypeCode.String);
                 }
             }
-
+            
             if (expression is NullReferenceExpression || (method != CS.Ops.IS && Helpers.IsIgnoreCast(type, this.Emitter)))
             {
                 if (expression is ParenthesizedExpression)
@@ -151,7 +151,7 @@ namespace Bridge.Translator
                 expression.AcceptVisitor(this.Emitter);
                 return;
             }
-
+            
             var expressionrr = this.Emitter.Resolver.ResolveNode(expression, this.Emitter);
             var typerr = this.Emitter.Resolver.ResolveNode(type, this.Emitter);
 
@@ -163,7 +163,7 @@ namespace Bridge.Translator
                    throw new EmitterException(this.CastExpression, "Enum underlying type is string and cannot be casted to number");
                 }
             }
-
+            
             if (method == CS.Ops.CAST && expressionrr.Type.Kind != TypeKind.Enum)
             {
                 var cast_rr = this.Emitter.Resolver.ResolveNode(this.CastExpression, this.Emitter);
@@ -188,7 +188,7 @@ namespace Bridge.Translator
                     }
                 }
             }
-
+            
             if (method == CS.Ops.IS && castToEnum)
             {
                 this.Write(JS.Types.Bridge.IS);
@@ -199,7 +199,7 @@ namespace Bridge.Translator
                 this.Write(")");
                 return;
             }
-
+            
             if (expressionrr.Type.Equals(itype))
             {
                 if (method == CS.Ops.IS)
@@ -215,7 +215,7 @@ namespace Bridge.Translator
 
                 return;
             }
-
+            
             bool isResultNullable = NullableType.IsNullable(typerr.Type);
 
             if (castCode != null)
@@ -225,7 +225,7 @@ namespace Bridge.Translator
             }
 
             bool isCast = method == CS.Ops.CAST;
-            if (isCast)
+            if (isCast && itype.Kind != TypeKind.Pointer)
             {
                 if (ConversionBlock.IsUserDefinedConversion(this, this.CastExpression.Expression) || ConversionBlock.IsUserDefinedConversion(this, this.CastExpression))
                 {
@@ -234,7 +234,7 @@ namespace Bridge.Translator
                     return;
                 }
             }
-
+            
             var conversion = this.Emitter.Resolver.Resolver.GetConversion(expression);
 
             if (conversion.IsNumericConversion || conversion.IsEnumerationConversion || (isCast && conversion.IsIdentityConversion))
@@ -242,10 +242,10 @@ namespace Bridge.Translator
                 expression.AcceptVisitor(this.Emitter);
                 return;
             }
-
+            
             var simpleType = type as SimpleType;
             bool hasValue = false;
-
+            
             if (simpleType != null && simpleType.Identifier == "dynamic")
             {
                 if (method == CS.Ops.CAST || method == CS.Ops.AS)
@@ -259,14 +259,22 @@ namespace Bridge.Translator
                     method = "hasValue";
                 }
             }
-
+            
             bool unbox = !(itype.IsReferenceType.HasValue ? itype.IsReferenceType.Value : true) && !NullableType.IsNullable(itype) && isCast && conversion.IsUnboxingConversion;
             if (unbox)
             {
                 this.Write("System.Nullable.getValue(");
             }
+            
+            if (itype.Kind == TypeKind.Pointer)
+            {
+                this.Write("System.JsPtr");
+            }
+            else
+            {
+                this.Write(JS.NS.BRIDGE);
+            }
 
-            this.Write(JS.NS.BRIDGE);
             this.WriteDot();
             this.Write(method);
             this.WriteOpenParentheses();

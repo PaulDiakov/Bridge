@@ -7,8 +7,17 @@
             },
             ctors: {
                 init: function () {
-                    this.HashPrime = 101;
-                    this.primes = System.Array.init([
+                    Object.defineProperty(this, "HashPrime", {
+                        get: function() {
+                            return this._HashPrime$ === undefined ? (this._HashPrime$ = 101) : this._HashPrime$;
+                        },
+                        set: function(v) {
+                            this._HashPrime$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "primes", {
+                        get: function() {
+                            return this._primes$ === undefined ? (this._primes$ = System.Array.init([
                         3, 
                         7, 
                         11, 
@@ -81,8 +90,20 @@
                         4999559, 
                         5999471, 
                         7199369
-                    ], System.Int32);
-                    this.MaxPrimeArrayLength = 2146435069;
+                    ], System.Int32)) : this._primes$;
+                        },
+                        set: function(v) {
+                            this._primes$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MaxPrimeArrayLength", {
+                        get: function() {
+                            return this._MaxPrimeArrayLength$ === undefined ? (this._MaxPrimeArrayLength$ = 2146435069) : this._MaxPrimeArrayLength$;
+                        },
+                        set: function(v) {
+                            this._MaxPrimeArrayLength$ = v;
+                        }
+                    });
                 }
             },
             methods: {

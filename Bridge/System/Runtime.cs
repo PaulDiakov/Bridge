@@ -585,15 +585,11 @@ namespace System.Runtime.CompilerServices
         void SetStateMachine(IAsyncStateMachine stateMachine);
     }
 
-    [External]
-    [NonScriptable]
     public interface INotifyCompletion
     {
         void OnCompleted(Action continuation);
     }
 
-    [External]
-    [NonScriptable]
     public interface ICriticalNotifyCompletion : INotifyCompletion
     {
         void UnsafeOnCompleted(Action continuation);
@@ -669,13 +665,32 @@ namespace Microsoft.CSharp.RuntimeBinder
 namespace System.Threading
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [External]
-    [NonScriptable]
     public static class Interlocked
     {
-        public static extern int CompareExchange(ref int location1, int value, int comparand);
-
-        public static extern T CompareExchange<T>(ref T location1, T value, T comparand) where T : class;
+        public extern static int CompareExchange(ref int location1, int value, int comparand);
+        public extern static object CompareExchange(ref object location1, object value, object comparand);
+        public extern static float CompareExchange(ref float location1, float value, float comparand);
+        public extern static int Decrement(ref int location);
+        public extern static long Decrement(ref long location);
+        public extern static int Increment(ref int location);
+        public extern static long Increment(ref long location);
+        public extern static int Exchange(ref int location1, int value);
+        public extern static object Exchange(ref object location1, object value);
+        public extern static float Exchange(ref float location1, float value);
+        public extern static long CompareExchange(ref long location1, long value, long comparand);
+        public extern static IntPtr CompareExchange(ref IntPtr location1, IntPtr value, IntPtr comparand);
+        public extern static double CompareExchange(ref double location1, double value, double comparand);
+        public extern static T CompareExchange<T>(ref T location1, T value, T comparand) where T : class;
+        public extern static long Exchange(ref long location1, long value);
+        public extern static IntPtr Exchange(ref IntPtr location1, IntPtr value);
+        public extern static double Exchange(ref double location1, double value);
+        public extern static T Exchange<T>(ref T location1, T value) where T : class;
+        public extern static long Read(ref long location);
+        public extern static int Add(ref int location1, int value);
+        public extern static long Add(ref long location1, long value);
+        public static void MemoryBarrier()
+        {
+        }
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]

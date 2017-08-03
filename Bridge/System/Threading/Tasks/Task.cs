@@ -38,6 +38,14 @@ namespace System.Threading.Tasks
             get;
         }
 
+        public static TaskFactory Factory
+        {
+            get
+            {
+                return default(TaskFactory);
+            }
+        }
+
         public extern Task ContinueWith(Action<Task> continuationAction);
 
         public extern Task<TResult> ContinueWith<TResult>(Func<Task, TResult> continuationFunction);
@@ -89,6 +97,28 @@ namespace System.Threading.Tasks
         public static extern Task<TResult> FromPromise<TResult>(IPromise promise, Delegate resultHandler, Delegate errorHandler);
 
         public static extern Task<TResult> FromPromise<TResult>(IPromise promise, Delegate resultHandler, Delegate errorHandler, Delegate progressHandler);
+
+        public void Wait()
+        {}
+
+        public void Wait(CancellationToken cancellationToken)
+        {
+        }
+
+        public bool Wait(TimeSpan timeout)
+        {
+            return default(bool);
+        }
+
+        public bool Wait(int millisecondsTimeout)
+        {
+            return default(bool);
+        }
+
+        public bool Wait(int millisecondsTimeout, CancellationToken cancellationToken)
+        {
+            return default(bool);
+        }
     }
 
     [External]

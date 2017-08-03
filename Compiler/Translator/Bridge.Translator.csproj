@@ -220,9 +220,13 @@
     <Compile Include="Emitter\Blocks\ConstructorBlock.Events.cs" />
     <Compile Include="Emitter\Blocks\EmitBlock.cs" />
     <Compile Include="Emitter\Blocks\AttributeCreateBlock.cs" />
+    <Compile Include="Emitter\Blocks\FixedStatementBlock.cs" />
     <Compile Include="Emitter\Blocks\GeneratorBlock.cs" />
     <Compile Include="Emitter\Blocks\GotoBlock.cs" />
+    <Compile Include="Emitter\Blocks\PointerReferenceBlock.cs" />
+    <Compile Include="Emitter\Blocks\SizeOfExpressionBlock.cs" />
     <Compile Include="Emitter\Blocks\TypeOfExpressionBlock.cs" />
+    <Compile Include="Emitter\Blocks\UnsafeBlock.cs" />
     <Compile Include="Emitter\Blocks\UsingBlock.cs" />
     <Compile Include="Emitter\Blocks\YieldBlock.cs" />
     <Compile Include="Emitter\Blocks\TypeExpressionListBlock.cs" />

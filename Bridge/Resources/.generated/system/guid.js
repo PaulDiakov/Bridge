@@ -14,12 +14,54 @@
             ctors: {
                 init: function () {
                     this.empty = new System.Guid();
-                    this.error1 = "Byte array for GUID must be exactly {0} bytes long";
-                    this.valid = new System.Text.RegularExpressions.Regex.ctor("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 1);
-                    this.split = new System.Text.RegularExpressions.Regex.ctor("^(.{8})(.{4})(.{4})(.{4})(.{12})$");
-                    this.nonFormat = new System.Text.RegularExpressions.Regex.ctor("^[{(]?([0-9a-f]{8})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{12})[)}]?$", 1);
-                    this.replace = new System.Text.RegularExpressions.Regex.ctor("-");
-                    this.rnd = new System.Random.ctor();
+                    Object.defineProperty(this, "error1", {
+                        get: function() {
+                            return this._error1$ === undefined ? (this._error1$ = "Byte array for GUID must be exactly {0} bytes long") : this._error1$;
+                        },
+                        set: function(v) {
+                            this._error1$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "valid", {
+                        get: function() {
+                            return this._valid$ === undefined ? (this._valid$ = new System.Text.RegularExpressions.Regex.ctor("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 1)) : this._valid$;
+                        },
+                        set: function(v) {
+                            this._valid$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "split", {
+                        get: function() {
+                            return this._split$ === undefined ? (this._split$ = new System.Text.RegularExpressions.Regex.ctor("^(.{8})(.{4})(.{4})(.{4})(.{12})$")) : this._split$;
+                        },
+                        set: function(v) {
+                            this._split$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "nonFormat", {
+                        get: function() {
+                            return this._nonFormat$ === undefined ? (this._nonFormat$ = new System.Text.RegularExpressions.Regex.ctor("^[{(]?([0-9a-f]{8})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{12})[)}]?$", 1)) : this._nonFormat$;
+                        },
+                        set: function(v) {
+                            this._nonFormat$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "replace", {
+                        get: function() {
+                            return this._replace$ === undefined ? (this._replace$ = new System.Text.RegularExpressions.Regex.ctor("-")) : this._replace$;
+                        },
+                        set: function(v) {
+                            this._replace$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "rnd", {
+                        get: function() {
+                            return this._rnd$ === undefined ? (this._rnd$ = new System.Random.ctor()) : this._rnd$;
+                        },
+                        set: function(v) {
+                            this._rnd$ = v;
+                        }
+                    });
                 }
             },
             methods: {

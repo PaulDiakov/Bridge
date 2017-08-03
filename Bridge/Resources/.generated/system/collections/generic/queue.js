@@ -8,9 +8,30 @@
             },
             ctors: {
                 init: function () {
-                    this.MinimumGrow = 4;
-                    this.GrowFactor = 200;
-                    this.DefaultCapacity = 4;
+                    Object.defineProperty(this, "MinimumGrow", {
+                        get: function() {
+                            return this._MinimumGrow$ === undefined ? (this._MinimumGrow$ = 4) : this._MinimumGrow$;
+                        },
+                        set: function(v) {
+                            this._MinimumGrow$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "GrowFactor", {
+                        get: function() {
+                            return this._GrowFactor$ === undefined ? (this._GrowFactor$ = 200) : this._GrowFactor$;
+                        },
+                        set: function(v) {
+                            this._GrowFactor$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "DefaultCapacity", {
+                        get: function() {
+                            return this._DefaultCapacity$ === undefined ? (this._DefaultCapacity$ = 4) : this._DefaultCapacity$;
+                        },
+                        set: function(v) {
+                            this._DefaultCapacity$ = v;
+                        }
+                    });
                 }
             }
         },

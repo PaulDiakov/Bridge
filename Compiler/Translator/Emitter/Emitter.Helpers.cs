@@ -149,6 +149,14 @@ namespace Bridge.Translator
             return WrapNullableMember(info, member, node);
         }
 
+        public virtual Tuple<bool, bool, string> GetInlineCode(PointerReferenceExpression node)
+        {
+            var member = LiftNullableMember(node);
+            var info = GetInlineCodeFromMember(member, node);
+
+            return WrapNullableMember(info, member, node);
+        }
+
         public virtual Tuple<bool, bool, string> GetInlineCode(InvocationExpression node)
         {
             var target = node.Target as MemberReferenceExpression;
@@ -223,6 +231,57 @@ namespace Bridge.Translator
         }
 
         private IMember LiftNullableMember(MemberReferenceExpression target)
+        {
+            var targetrr = this.Resolver.ResolveNode(target.Target, this);
+            IMember member = null;
+            if (targetrr.Type.IsKnownType(KnownTypeCode.NullableOfT))
+            {
+                string name = null;
+                int count = 0;
+                IType typeArg = null;
+                if (target.MemberName == CS.Methods.TOSTRING || target.MemberName == CS.Methods.GETHASHCODE)
+                {
+                    name = target.MemberName;
+                }
+                else if (target.MemberName == CS.Methods.EQUALS)
+                {
+                    if (target.Parent is InvocationExpression)
+                    {
+                        var rr = this.Resolver.ResolveNode(target.Parent, this) as InvocationResolveResult;
+                        if (rr != null)
+                        {
+                            typeArg = rr.Arguments.First().Type;
+                        }
+                    }
+                    name = target.MemberName;
+                    count = 1;
+                }
+
+                if (name != null)
+                {
+                    var type = ((ParameterizedType)targetrr.Type).TypeArguments[0];
+                    var methods = type.GetMethods(null, GetMemberOptions.IgnoreInheritedMembers);
+
+                    if (count == 0)
+                    {
+                        member = methods.FirstOrDefault(m => m.Name == name && m.Parameters.Count == count);
+                    }
+                    else
+                    {
+                        member = methods.FirstOrDefault(m => m.Name == name && m.Parameters.Count == count && m.Parameters.First().Type.Equals(typeArg));
+
+                        if (member == null)
+                        {
+                            var typeDef = typeArg.GetDefinition();
+                            member = methods.FirstOrDefault(m => m.Name == name && m.Parameters.Count == count && m.Parameters.First().Type.GetDefinition().IsDerivedFrom(typeDef));
+                        }
+                    }
+                }
+            }
+            return member;
+        }
+
+        private IMember LiftNullableMember(PointerReferenceExpression target)
         {
             var targetrr = this.Resolver.ResolveNode(target.Target, this);
             IMember member = null;

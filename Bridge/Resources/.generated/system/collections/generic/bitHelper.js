@@ -6,8 +6,22 @@
             },
             ctors: {
                 init: function () {
-                    this.MarkedBitFlag = 1;
-                    this.IntSize = 32;
+                    Object.defineProperty(this, "MarkedBitFlag", {
+                        get: function() {
+                            return this._MarkedBitFlag$ === undefined ? (this._MarkedBitFlag$ = 1) : this._MarkedBitFlag$;
+                        },
+                        set: function(v) {
+                            this._MarkedBitFlag$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "IntSize", {
+                        get: function() {
+                            return this._IntSize$ === undefined ? (this._IntSize$ = 32) : this._IntSize$;
+                        },
+                        set: function(v) {
+                            this._IntSize$ = v;
+                        }
+                    });
                 }
             },
             methods: {

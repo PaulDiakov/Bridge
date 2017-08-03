@@ -99,11 +99,11 @@ namespace Bridge.Translator
                 {
                     injectors = fieldsInjectors.Concat(injectors);
                 }
-
+                
                 if (injectors.Count() > 0)
                 {
                     this.EnsureComma();
-
+                    
                     ctorHeader = true;
                     this.Write(JS.Fields.CTORS);
                     this.WriteColon();
@@ -116,13 +116,13 @@ namespace Bridge.Translator
                     this.WriteCloseParentheses();
                     this.WriteSpace();
                     this.BeginBlock();
-
+                    
                     if (this.Emitter.TempVariables != null)
                     {
                         this.SimpleEmitTempVars();
                         this.Emitter.TempVariables = new Dictionary<string, bool>();
                     }
-
+                    
                     foreach (var fn in injectors)
                     {
                         this.Write(WriteIndentToString(fn, this.Level - 1));
@@ -134,7 +134,7 @@ namespace Bridge.Translator
             }
 
             var ctor = this.TypeInfo.StaticCtor;
-
+            
             if (ctor != null && ctor.Body.HasChildren)
             {
                 this.EnsureComma();
@@ -146,9 +146,10 @@ namespace Bridge.Translator
                     this.WriteColon();
                     this.BeginBlock();
                 }
-
+                
                 this.ResetLocals();
                 var prevNamesMap = this.BuildLocalsNamesMap();
+                
                 this.Write(JS.Funcs.CONSTRUCTOR);
                 this.WriteColon();
                 this.WriteFunction();
@@ -168,7 +169,7 @@ namespace Bridge.Translator
                 this.ClearLocalsNamesMap(prevNamesMap);
                 this.Emitter.Comma = true;
             }
-
+            
             if (ctorHeader)
             {
                 this.WriteNewLine();

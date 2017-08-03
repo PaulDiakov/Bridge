@@ -9,6 +9,18 @@
             public const string BRIDGE = "Bridge";
         }
 
+        public class JsPtr
+        {
+            public const string GET_ELEMENT = ".getElement";
+            public const string SET_ELEMENT = ".setElement";
+            public const string SET = ".set";
+            public const string ADD_OFFSET = ".addOffset";
+            public const string SUB_OFFSET = ".subOffset";
+            public const string ADD = ".add";
+            public const string SUB = ".sub";
+            public const string GET = ".get";
+        }
+
         public class Fields
         {
             public const string ENTRY_POINT = "$entryPoint";
@@ -34,6 +46,24 @@
             public const string ASYNC_TASK = "task";
             public const string PROTOTYPE = "prototype";
             public const string CURRENT = "current";
+
+            public const string LAZY_TPL = @"Object.defineProperty(this, {0}, {{
+        get: function() {{
+            return this[""_{2}$""] === undefined ? (this[""_{2}$""] = {1}) : this[""_{2}$""];
+        }},
+        set: function(v) {{
+            this[""_{2}$""] = v;
+        }}
+    }});";
+            
+            public const string LAZY_VALID_TPL = @"Object.defineProperty(this, ""{0}"", {{
+        get: function() {{
+            return this._{0}$ === undefined ? (this._{0}$ = {1}) : this._{0}$;
+        }},
+        set: function(v) {{
+            this._{0}$ = v;
+        }}
+    }});";
         }
 
         public class Funcs

@@ -358,6 +358,9 @@ namespace Bridge.Translator
             OperatorResolveResult orr = resolveOperator as OperatorResolveResult;
             var leftResolverResult = this.Emitter.Resolver.ResolveNode(binaryOperatorExpression.Left, this.Emitter);
             var rightResolverResult = this.Emitter.Resolver.ResolveNode(binaryOperatorExpression.Right, this.Emitter);
+
+            bool isPointerLeft = leftResolverResult.Type.Kind == TypeKind.Pointer;
+            
             var charToString = -1;
             string variable = null;
             bool leftIsNull = this.BinaryOperatorExpression.Left is NullReferenceExpression;
@@ -539,7 +542,32 @@ namespace Bridge.Translator
                 binaryOperatorExpression.Operator == BinaryOperatorType.Subtract)
             {
                 var add = binaryOperatorExpression.Operator == BinaryOperatorType.Add;
+                
+                if (isPointerLeft)
+                {
+                    bool isIdentity = false;
 
+                    if (binaryOperatorExpression.Parent is AssignmentExpression &&
+                        binaryOperatorExpression.Parent.Parent is ICSharpCode.NRefactory.CSharp.InvocationExpression)
+                    {
+                        isIdentity = true;
+
+                        this.WritePart(binaryOperatorExpression.Left, toStringForLeft, leftResolverResult);
+                        this.Write(" = ");
+                    }
+
+                    this.WritePart(binaryOperatorExpression.Left, toStringForLeft, leftResolverResult);
+                    this.Write(add ? JS.JsPtr.ADD_OFFSET : JS.JsPtr.SUB_OFFSET);
+                    this.WriteOpenParentheses();
+                    this.WritePart(binaryOperatorExpression.Right, toStringForRight, rightResolverResult);
+                    if (isIdentity)
+                    {
+                        this.Write(", true"); //For post increment or decrement create new pointer object
+                    }
+                    this.WriteCloseParentheses();
+                    return;
+                }
+                
                 if (expectedType.Kind == TypeKind.Delegate || this.Emitter.Validator.IsDelegateOrLambda(leftResolverResult) && this.Emitter.Validator.IsDelegateOrLambda(rightResolverResult))
                 {
                     delegateOperator = true;
@@ -631,7 +659,7 @@ namespace Bridge.Translator
                 {
                     this.WriteSpace();
                 }
-
+                
                 switch (binaryOperatorExpression.Operator)
                 {
                     case BinaryOperatorType.Add:
@@ -1095,7 +1123,7 @@ namespace Bridge.Translator
             {
                 expression.AcceptVisitor(this.Emitter);
             }
-
+            
             if (isCoalescing)
             {
                 ConversionBlock.expressionInWork.Remove(expression);

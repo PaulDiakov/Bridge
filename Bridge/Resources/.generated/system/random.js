@@ -7,9 +7,30 @@
             },
             ctors: {
                 init: function () {
-                    this.MBIG = 2147483647;
-                    this.MSEED = 161803398;
-                    this.MZ = 0;
+                    Object.defineProperty(this, "MBIG", {
+                        get: function() {
+                            return this._MBIG$ === undefined ? (this._MBIG$ = 2147483647) : this._MBIG$;
+                        },
+                        set: function(v) {
+                            this._MBIG$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MSEED", {
+                        get: function() {
+                            return this._MSEED$ === undefined ? (this._MSEED$ = 161803398) : this._MSEED$;
+                        },
+                        set: function(v) {
+                            this._MSEED$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MZ", {
+                        get: function() {
+                            return this._MZ$ === undefined ? (this._MZ$ = 0) : this._MZ$;
+                        },
+                        set: function(v) {
+                            this._MZ$ = v;
+                        }
+                    });
                 }
             }
         },

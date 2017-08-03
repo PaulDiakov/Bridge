@@ -408,7 +408,27 @@ namespace Bridge.Translator
 
                             if (!isDefaultInstance)
                             {
-                                if (isField && !isValidIdentifier)
+                                if (StaticBlock && isField)
+                                {
+                                    var lazyName = name;
+
+                                    if (!isValidIdentifier && !name.StartsWith("\""))
+                                    {
+                                        lazyName = AbstractEmitterBlock.ToJavaScript(name, this.Emitter);
+                                    }
+
+                                    if (lazyName.StartsWith("\""))
+                                    {
+                                        this.Injectors.Add(string.Format(
+                                            JS.Fields.LAZY_TPL, lazyName, value + defValue, lazyName.Replace('"', '_')
+                                        ));
+                                    }
+                                    else
+                                    {
+                                        this.Injectors.Add(string.Format(JS.Fields.LAZY_VALID_TPL, lazyName, value + defValue));
+                                    }
+                                }
+                                else if (isField && !isValidIdentifier)
                                 {
                                     this.Injectors.Add(string.Format("this[{0}] = {1};", name.StartsWith("\"") ? name : AbstractEmitterBlock.ToJavaScript(name, this.Emitter), value + defValue));
                                 }

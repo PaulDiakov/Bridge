@@ -11542,6 +11542,106 @@ Bridge.Class.addExtend(System.Boolean, [System.IComparable$1(System.Boolean), Sy
         }
     });
 
+    // @source keyCollection.js
+
+    Bridge.define("System.Collections.Generic.Dictionary$2.KeyCollection", function (TKey, TValue) { return {
+        inherits: [System.Collections.Generic.ICollection$1(TKey),System.Collections.Generic.IEnumerable$1(TKey),System.Collections.ICollection,System.Collections.IEnumerable],
+        props: {
+            Count: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Int32);
+                }
+            },
+            System$Collections$Generic$ICollection$1$IsReadOnly: {
+                get: function () {
+                    return true;
+                }
+            }
+        },
+        alias: [
+            "copyTo", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$copyTo",
+            "System$Collections$Generic$ICollection$1$add", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$add",
+            "System$Collections$Generic$ICollection$1$clear", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$clear",
+            "System$Collections$Generic$ICollection$1$contains", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$contains",
+            "System$Collections$Generic$ICollection$1$remove", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$remove",
+            "System$Collections$Generic$IEnumerable$1$getEnumerator", "System$Collections$Generic$IEnumerable$1$" + Bridge.getTypeAlias(TKey) + "$getEnumerator",
+            "Count", "System$Collections$ICollection$Count",
+            "Count", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$Count",
+            "System$Collections$Generic$ICollection$1$IsReadOnly", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(TKey) + "$IsReadOnly"
+        ],
+        ctors: {
+            ctor: function (dictionary) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            copyTo: function (array, index) { },
+            System$Collections$ICollection$copyTo: function (array, index) { },
+            getEnumerator: function () {
+                return Bridge.getDefaultValue(System.Collections.Generic.Dictionary$2.KeyCollection.Enumerator(TKey,TValue));
+            },
+            System$Collections$Generic$IEnumerable$1$getEnumerator: function () {
+                return null;
+            },
+            System$Collections$IEnumerable$getEnumerator: function () {
+                return null;
+            },
+            System$Collections$Generic$ICollection$1$add: function (item) { },
+            System$Collections$Generic$ICollection$1$clear: function () { },
+            System$Collections$Generic$ICollection$1$contains: function (item) {
+                return Bridge.getDefaultValue(System.Boolean);
+            },
+            System$Collections$Generic$ICollection$1$remove: function (item) {
+                return Bridge.getDefaultValue(System.Boolean);
+            }
+        }
+    }; });
+
+    // @source enumerator.js
+
+    Bridge.define("System.Collections.Generic.Dictionary$2.KeyCollection.Enumerator", function (TKey, TValue) { return {
+        inherits: [System.Collections.Generic.IEnumerator$1(TKey),System.IDisposable,System.Collections.IEnumerator],
+        $kind: "struct",
+        statics: {
+            methods: {
+                getDefaultValue: function () { return new (System.Collections.Generic.Dictionary$2.KeyCollection.Enumerator(TKey,TValue))(); }
+            }
+        },
+        props: {
+            Current: {
+                get: function () {
+                    return Bridge.getDefaultValue(TKey);
+                }
+            },
+            System$Collections$IEnumerator$Current: {
+                get: function () {
+                    return null;
+                }
+            }
+        },
+        alias: [
+            "dispose", "System$IDisposable$dispose",
+            "moveNext", "System$Collections$IEnumerator$moveNext",
+            "Current", ["System$Collections$Generic$IEnumerator$1$" + Bridge.getTypeAlias(TKey) + "$Current$1", "System$Collections$Generic$IEnumerator$1$Current$1"]
+        ],
+        ctors: {
+            $ctor1: function (host) {
+                this.$initialize();
+            },
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            dispose: function () { },
+            moveNext: function () {
+                return Bridge.getDefaultValue(System.Boolean);
+            },
+            System$Collections$IEnumerator$reset: function () { },
+            $clone: function (to) { return this; }
+        }
+    }; });
+
     // @source KeyValuePair.js
 
     Bridge.define('System.Collections.Generic.KeyValuePair$2', function (TKey, TValue) {
@@ -14082,8 +14182,22 @@ Bridge.Class.addExtend(System.String, [System.IComparable$1(System.String), Syst
             },
             ctors: {
                 init: function () {
-                    this.separatorsArray = 46;
-                    this.ZERO_CHAR_VALUE = 48;
+                    Object.defineProperty(this, "separatorsArray", {
+                        get: function() {
+                            return this._separatorsArray$ === undefined ? (this._separatorsArray$ = 46) : this._separatorsArray$;
+                        },
+                        set: function(v) {
+                            this._separatorsArray$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "ZERO_CHAR_VALUE", {
+                        get: function() {
+                            return this._ZERO_CHAR_VALUE$ === undefined ? (this._ZERO_CHAR_VALUE$ = 48) : this._ZERO_CHAR_VALUE$;
+                        },
+                        set: function(v) {
+                            this._ZERO_CHAR_VALUE$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -19662,12 +19776,54 @@ Bridge.Class.addExtend(System.String, [System.IComparable$1(System.String), Syst
             ctors: {
                 init: function () {
                     this.empty = new System.Guid();
-                    this.error1 = "Byte array for GUID must be exactly {0} bytes long";
-                    this.valid = new System.Text.RegularExpressions.Regex.ctor("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 1);
-                    this.split = new System.Text.RegularExpressions.Regex.ctor("^(.{8})(.{4})(.{4})(.{4})(.{12})$");
-                    this.nonFormat = new System.Text.RegularExpressions.Regex.ctor("^[{(]?([0-9a-f]{8})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{12})[)}]?$", 1);
-                    this.replace = new System.Text.RegularExpressions.Regex.ctor("-");
-                    this.rnd = new System.Random.ctor();
+                    Object.defineProperty(this, "error1", {
+                        get: function() {
+                            return this._error1$ === undefined ? (this._error1$ = "Byte array for GUID must be exactly {0} bytes long") : this._error1$;
+                        },
+                        set: function(v) {
+                            this._error1$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "valid", {
+                        get: function() {
+                            return this._valid$ === undefined ? (this._valid$ = new System.Text.RegularExpressions.Regex.ctor("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", 1)) : this._valid$;
+                        },
+                        set: function(v) {
+                            this._valid$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "split", {
+                        get: function() {
+                            return this._split$ === undefined ? (this._split$ = new System.Text.RegularExpressions.Regex.ctor("^(.{8})(.{4})(.{4})(.{4})(.{12})$")) : this._split$;
+                        },
+                        set: function(v) {
+                            this._split$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "nonFormat", {
+                        get: function() {
+                            return this._nonFormat$ === undefined ? (this._nonFormat$ = new System.Text.RegularExpressions.Regex.ctor("^[{(]?([0-9a-f]{8})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{4})-?([0-9a-f]{12})[)}]?$", 1)) : this._nonFormat$;
+                        },
+                        set: function(v) {
+                            this._nonFormat$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "replace", {
+                        get: function() {
+                            return this._replace$ === undefined ? (this._replace$ = new System.Text.RegularExpressions.Regex.ctor("-")) : this._replace$;
+                        },
+                        set: function(v) {
+                            this._replace$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "rnd", {
+                        get: function() {
+                            return this._rnd$ === undefined ? (this._rnd$ = new System.Random.ctor()) : this._rnd$;
+                        },
+                        set: function(v) {
+                            this._rnd$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -20081,7 +20237,7 @@ Bridge.Class.addExtend(System.String, [System.IComparable$1(System.String), Syst
                     this.ExitCode = 0;
                 },
                 ctor: function () {
-                    System.Environment.variables = new (System.Collections.Generic.Dictionary$2(System.String,System.String))();
+                    System.Environment.variables = new (System.Collections.Generic.Dictionary$2(System.String,System.String)).ctor();
                     System.Environment.patchDictionary(System.Environment.variables);
                 }
             },
@@ -20168,7 +20324,7 @@ Bridge.Class.addExtend(System.String, [System.IComparable$1(System.String), Syst
                     return System.Environment.getEnvironmentVariable(variable);
                 },
                 getEnvironmentVariables: function () {
-                    return System.Environment.patchDictionary(new (System.Collections.Generic.Dictionary$2(System.String,System.String))(System.Environment.variables));
+                    return System.Environment.patchDictionary(new (System.Collections.Generic.Dictionary$2(System.String,System.String)).ctor(System.Environment.variables));
                 },
                 getEnvironmentVariables$1: function (target) {
                     return System.Environment.getEnvironmentVariables();
@@ -26010,6 +26166,298 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
         }
     });
 
+    // @source JsPtr.js
+
+Bridge.define("System.JsPtr", {
+    statics: {
+        methods: {
+            cast: function (value, type) 
+            {
+                var pointer = value.toPointer().copy();
+
+                //cast only if buffer is typed array
+                return pointer.toTypedView(pointer.type == 'source' ? 'source' : type);
+            },
+            getPointer: function (source, offset)
+            {
+                var pointer;
+
+                if (source.isJsPtr)
+                {
+                    pointer = new System.JsPtr.$ctor2(source.buffer);
+                    pointer.offset = source.offset + offset || 0;
+
+                    return pointer.toTypedView(source.type);
+                }
+
+                pointer = new System.JsPtr.$ctor2(source);
+                pointer.offset = offset || 0;
+
+                return pointer.toSourceView();
+            },
+            toFixed: function (source)
+            {
+                return source.isJsPtr ? source : System.JsPtr.getPointer(source);
+            }
+        }
+    },
+    fields: {
+        isJsPtr: null,
+        buffer: null,
+        current: null,
+        offset: null,
+        type: null,
+        view: null
+    },
+    ctors: {
+        ctor: function (value) { // from int
+            this.$initialize();
+            this.isJsPtr = true;
+            this.buffer = new ArrayBuffer(value);
+            this.current = 0;
+            this.offset = 0;
+        },
+        $ctor1: function (value) { // from long
+            this.$initialize();
+            this.isJsPtr = true;
+            this.buffer = new ArrayBuffer(value);
+            this.current = 0;
+            this.offset = 0;
+        },
+        $ctor2: function (value) { // from "pointer" (another ArrayBuffer or js array)
+            this.$initialize();
+            this.isJsPtr = true;
+            this.buffer = value;
+            this.current = 0;
+            this.offset = 0;
+        }
+    },
+    methods: {
+        toPointer: function()
+        {
+            return this;
+        },
+
+        toTypedView: function (type)
+        {
+            this.type = type;
+
+            switch(this.type)
+            {
+            case System.Single:
+                return this.toFloat32View();
+
+            case System.Int32:
+                return this.toInt32View();
+
+            case System.Byte:
+                return this.toUint8Array();
+
+            default:
+                this.type = 'source';
+                return this.toSourceView();
+            }
+        },
+        
+        toFloat32View: function()
+        {
+            this.view = new Float32Array(this.buffer);
+
+            return this;
+        },
+
+        toInt32View: function()
+        {
+            this.view = new Int32Array(this.buffer);
+
+            return this;
+        },
+
+        toUint8Array: function()
+        {
+            this.view = new Uint8Array(this.buffer);
+
+            return this;
+        },
+
+        toSourceView: function()
+        {
+            this.view = this.buffer;
+
+            return this;
+        },
+
+        getElement: function(index)
+        {
+            return this.view[index + this.offset];
+        },
+
+        setElement: function(index, value)
+        {
+            this.view[index + this.offset] = value;
+        },
+
+        get: function()
+        {
+            return this.view[this.current + this.offset];
+        },
+
+        set: function(value)
+        {
+            this.view[this.current + this.offset] = value;
+        },
+
+        add: function(value)
+        {
+            this.view[this.current + this.offset] += value;
+        },
+
+        sub: function(value)
+        {
+            this.view[this.current + this.offset] -= value;
+        },
+
+        addOffset: function (value, createNew) 
+        {
+            var ptr = createNew ? this.copy() : this;
+            
+            ptr.current += value;
+
+            return ptr;
+        },
+        
+        subOffset: function (value, createNew) 
+        {
+            return addOffset(-value, createNew);
+        },
+
+        copy: function ()
+        {
+            var ptr = new System.JsPtr.$ctor2(this.buffer);
+            ptr.current = this.current;
+            ptr.offset = this.offset;
+            ptr.type = this.type;
+            ptr.view = this.view;
+
+            return ptr;
+        }
+    }
+});
+
+    // @source IntPtr.js
+
+Bridge.define("System.IntPtr", {
+    $kind: "struct",
+    statics: {
+        fields: {
+            zero: null
+        },
+        props: {
+            Size: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            init: function () {
+                this.zero = new System.IntPtr();
+            }
+        },
+        methods: {
+            add: function (pointer, offset) {
+                throw new System.NotImplementedException();
+            },
+            subtract: function (pointer, offset) {
+                throw new System.NotImplementedException();
+            },
+            op_Equality: function (value1, value2) {
+                throw new System.NotImplementedException();
+            },
+            op_Inequality: function (value1, value2) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit$2: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit$3: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit$4: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit$1: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Explicit$5: function (value) {
+                throw new System.NotImplementedException();
+            },
+            op_Addition: function (pointer, offset) {
+                throw new System.NotImplementedException();
+            },
+            op_Subtraction: function (pointer, offset) {
+                throw new System.NotImplementedException();
+            },
+            getDefaultValue: function () { return new System.IntPtr(); }
+        }
+    },
+    fields: {
+        pointer: null
+    },
+    ctors: {
+        $ctor1: function (value) {
+            this.$initialize();
+            this.pointer = new System.JsPtr.ctor(value);
+        },
+        $ctor2: function (value) {
+            this.$initialize();
+            this.pointer = new System.JsPtr.$ctor1(value);
+        },
+        $ctor3: function (value) {
+            this.$initialize();
+            this.pointer = value;
+        },
+        ctor: function (value) {
+            this.$initialize();
+            this.pointer = value;
+        }
+    },
+    methods: {
+        equals: function (obj) {
+            throw new System.NotImplementedException();
+        },
+        getHashCode: function () {
+            throw new System.NotImplementedException();
+        },
+        toInt32: function () {
+            throw new System.NotImplementedException();
+        },
+        toInt64: function () {
+            throw new System.NotImplementedException();
+        },
+        toPointer: function () {
+            return this.pointer;
+        },
+        toString: function () {
+            throw new System.NotImplementedException();
+        },
+        toString$1: function (format) {
+            throw new System.NotImplementedException();
+        },
+        isNull: function () {
+            throw new System.NotImplementedException();
+        },
+        $clone: function (to) {
+            var s = to || new System.IntPtr();
+            s.pointer = this.pointer;
+            return s;
+        }
+    }
+});
+
     // @source random.js
 
     Bridge.define("System.Random", {
@@ -26021,9 +26469,30 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.MBIG = 2147483647;
-                    this.MSEED = 161803398;
-                    this.MZ = 0;
+                    Object.defineProperty(this, "MBIG", {
+                        get: function() {
+                            return this._MBIG$ === undefined ? (this._MBIG$ = 2147483647) : this._MBIG$;
+                        },
+                        set: function(v) {
+                            this._MBIG$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MSEED", {
+                        get: function() {
+                            return this._MSEED$ === undefined ? (this._MSEED$ = 161803398) : this._MSEED$;
+                        },
+                        set: function(v) {
+                            this._MSEED$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MZ", {
+                        get: function() {
+                            return this._MZ$ === undefined ? (this._MZ$ = 0) : this._MZ$;
+                        },
+                        set: function(v) {
+                            this._MZ$ = v;
+                        }
+                    });
                 }
             }
         },
@@ -26170,8 +26639,22 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.isLittleEndian = System.BitConverter.getIsLittleEndian();
-                    this.arg_ArrayPlusOffTooSmall = "Destination array is not long enough to copy all the items in the collection. Check array index and length.";
+                    Object.defineProperty(this, "isLittleEndian", {
+                        get: function() {
+                            return this._isLittleEndian$ === undefined ? (this._isLittleEndian$ = System.BitConverter.getIsLittleEndian()) : this._isLittleEndian$;
+                        },
+                        set: function(v) {
+                            this._isLittleEndian$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "arg_ArrayPlusOffTooSmall", {
+                        get: function() {
+                            return this._arg_ArrayPlusOffTooSmall$ === undefined ? (this._arg_ArrayPlusOffTooSmall$ = "Destination array is not long enough to copy all the items in the collection. Check array index and length.") : this._arg_ArrayPlusOffTooSmall$;
+                        },
+                        set: function(v) {
+                            this._arg_ArrayPlusOffTooSmall$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -26456,6 +26939,271 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
         }
     });
 
+    // @source taskFactory.js
+
+    Bridge.define("System.Threading.Tasks.TaskFactory", {
+        statics: {
+            methods: {
+                checkContinuationOptions: function (continuationOptions) { },
+                checkContinueArguments: function (tasks, continuationAction, continuationOptions, scheduler) { }
+            }
+        },
+        props: {
+            Scheduler: {
+                get: function () {
+                    return null;
+                }
+            },
+            ContinuationOptions: {
+                get: function () {
+                    return 0;
+                }
+            },
+            CreationOptions: {
+                get: function () {
+                    return 0;
+                }
+            },
+            CancellationToken: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Threading.CancellationToken);
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                System.Threading.Tasks.TaskFactory.$ctor2.call(this, System.Threading.CancellationToken.none, System.Threading.Tasks.TaskCreationOptions.None, System.Threading.Tasks.TaskContinuationOptions.None, null);
+            },
+            $ctor1: function (cancellationToken) {
+                System.Threading.Tasks.TaskFactory.$ctor2.call(this, cancellationToken, System.Threading.Tasks.TaskCreationOptions.None, System.Threading.Tasks.TaskContinuationOptions.None, null);
+            },
+            $ctor4: function (scheduler) {
+                System.Threading.Tasks.TaskFactory.$ctor2.call(this, System.Threading.CancellationToken.none, System.Threading.Tasks.TaskCreationOptions.None, System.Threading.Tasks.TaskContinuationOptions.None, scheduler);
+            },
+            $ctor3: function (creationOptions, continuationOptions) {
+                System.Threading.Tasks.TaskFactory.$ctor2.call(this, System.Threading.CancellationToken.none, creationOptions, continuationOptions, null);
+            },
+            $ctor2: function (cancellationToken, creationOptions, continuationOptions, scheduler) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            startNew: function (action) {
+                return null;
+            },
+            startNew$1: function (action, cancellationToken) {
+                return null;
+            },
+            startNew$3: function (action, creationOptions) {
+                return null;
+            },
+            startNew$2: function (action, cancellationToken, creationOptions, scheduler) {
+                return null;
+            },
+            startNew$4: function (action, state) {
+                return null;
+            },
+            startNew$5: function (action, state, cancellationToken) {
+                return null;
+            },
+            startNew$7: function (action, state, creationOptions) {
+                return null;
+            },
+            startNew$6: function (action, state, cancellationToken, creationOptions, scheduler) {
+                return null;
+            },
+            startNew$8: function (TResult, $function) {
+                return null;
+            },
+            startNew$11: function (TResult, $function, creationOptions) {
+                return null;
+            },
+            startNew$9: function (TResult, $function, cancellationToken) {
+                return null;
+            },
+            startNew$10: function (TResult, $function, cancellationToken, creationOptions, scheduler) {
+                return null;
+            },
+            startNew$12: function (TResult, $function, state) {
+                return null;
+            },
+            startNew$13: function (TResult, $function, state, cancellationToken) {
+                return null;
+            },
+            startNew$15: function (TResult, $function, state, creationOptions) {
+                return null;
+            },
+            startNew$14: function (TResult, $function, state, cancellationToken, creationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAny: function (tasks, continuationAction) {
+                return null;
+            },
+            continueWhenAny$1: function (tasks, continuationAction, cancellationToken) {
+                return null;
+            },
+            continueWhenAny$3: function (tasks, continuationAction, continuationOptions) {
+                return null;
+            },
+            continueWhenAny$2: function (tasks, continuationAction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAny$4: function (TAntecedentResult, tasks, continuationAction) {
+                return null;
+            },
+            continueWhenAny$5: function (TAntecedentResult, tasks, continuationAction, cancellationToken) {
+                return null;
+            },
+            continueWhenAny$7: function (TAntecedentResult, tasks, continuationAction, continuationOptions) {
+                return null;
+            },
+            continueWhenAny$6: function (TAntecedentResult, tasks, continuationAction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAny$8: function (TResult, tasks, continuationFunction) {
+                return null;
+            },
+            continueWhenAny$9: function (TResult, tasks, continuationFunction, cancellationToken) {
+                return null;
+            },
+            continueWhenAny$11: function (TResult, tasks, continuationFunction, continuationOptions) {
+                return null;
+            },
+            continueWhenAny$10: function (TResult, tasks, continuationFunction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAny$12: function (TAntecedentResult, TResult, tasks, continuationFunction) {
+                return null;
+            },
+            continueWhenAny$13: function (TAntecedentResult, TResult, tasks, continuationFunction, cancellationToken) {
+                return null;
+            },
+            continueWhenAny$15: function (TAntecedentResult, TResult, tasks, continuationFunction, continuationOptions) {
+                return null;
+            },
+            continueWhenAny$14: function (TAntecedentResult, TResult, tasks, continuationFunction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAll: function (tasks, continuationAction) {
+                return null;
+            },
+            continueWhenAll$1: function (tasks, continuationAction, cancellationToken) {
+                return null;
+            },
+            continueWhenAll$3: function (tasks, continuationAction, continuationOptions) {
+                return null;
+            },
+            continueWhenAll$2: function (tasks, continuationAction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAll$4: function (TAntecedentResult, tasks, continuationAction) {
+                return null;
+            },
+            continueWhenAll$5: function (TAntecedentResult, tasks, continuationAction, cancellationToken) {
+                return null;
+            },
+            continueWhenAll$7: function (TAntecedentResult, tasks, continuationAction, continuationOptions) {
+                return null;
+            },
+            continueWhenAll$6: function (TAntecedentResult, tasks, continuationAction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAll$8: function (TResult, tasks, continuationFunction) {
+                return null;
+            },
+            continueWhenAll$11: function (TResult, tasks, continuationFunction, continuationOptions) {
+                return null;
+            },
+            continueWhenAll$9: function (TResult, tasks, continuationFunction, cancellationToken) {
+                return null;
+            },
+            continueWhenAll$10: function (TResult, tasks, continuationFunction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            continueWhenAll$12: function (TAntecedentResult, TResult, tasks, continuationFunction) {
+                return null;
+            },
+            continueWhenAll$15: function (TAntecedentResult, TResult, tasks, continuationFunction, continuationOptions) {
+                return null;
+            },
+            continueWhenAll$13: function (TAntecedentResult, TResult, tasks, continuationFunction, cancellationToken) {
+                return null;
+            },
+            continueWhenAll$14: function (TAntecedentResult, TResult, tasks, continuationFunction, cancellationToken, continuationOptions, scheduler) {
+                return null;
+            },
+            fromAsync$2: function (asyncResult, endMethod) {
+                return null;
+            },
+            fromAsync$3: function (asyncResult, endMethod, creationOptions) {
+                return null;
+            },
+            fromAsync$4: function (asyncResult, endMethod, creationOptions, scheduler) {
+                return null;
+            },
+            fromAsync$13: function (TResult, asyncResult, endMethod) {
+                return null;
+            },
+            fromAsync$14: function (TResult, asyncResult, endMethod, creationOptions) {
+                return null;
+            },
+            fromAsync$15: function (TResult, asyncResult, endMethod, creationOptions, scheduler) {
+                return null;
+            },
+            fromAsync: function (beginMethod, endMethod, state) {
+                return null;
+            },
+            fromAsync$1: function (beginMethod, endMethod, state, creationOptions) {
+                return null;
+            },
+            fromAsync$5: function (TArg1, beginMethod, endMethod, arg1, state) {
+                return null;
+            },
+            fromAsync$6: function (TArg1, beginMethod, endMethod, arg1, state, creationOptions) {
+                return null;
+            },
+            fromAsync$7: function (TArg1, TArg2, beginMethod, endMethod, arg1, arg2, state) {
+                return null;
+            },
+            fromAsync$8: function (TArg1, TArg2, beginMethod, endMethod, arg1, arg2, state, creationOptions) {
+                return null;
+            },
+            fromAsync$9: function (TArg1, TArg2, TArg3, beginMethod, endMethod, arg1, arg2, arg3, state) {
+                return null;
+            },
+            fromAsync$10: function (TArg1, TArg2, TArg3, beginMethod, endMethod, arg1, arg2, arg3, state, creationOptions) {
+                return null;
+            },
+            fromAsync$11: function (TResult, beginMethod, endMethod, state) {
+                return null;
+            },
+            fromAsync$12: function (TResult, beginMethod, endMethod, state, creationOptions) {
+                return null;
+            },
+            fromAsync$16: function (TArg1, TResult, beginMethod, endMethod, arg1, state) {
+                return null;
+            },
+            fromAsync$17: function (TArg1, TResult, beginMethod, endMethod, arg1, state, creationOptions) {
+                return null;
+            },
+            fromAsync$18: function (TArg1, TArg2, TResult, beginMethod, endMethod, arg1, arg2, state) {
+                return null;
+            },
+            fromAsync$19: function (TArg1, TArg2, TResult, beginMethod, endMethod, arg1, arg2, state, creationOptions) {
+                return null;
+            },
+            fromAsync$20: function (TArg1, TArg2, TArg3, TResult, beginMethod, endMethod, arg1, arg2, arg3, state) {
+                return null;
+            },
+            fromAsync$21: function (TArg1, TArg2, TArg3, TResult, beginMethod, endMethod, arg1, arg2, arg3, state, creationOptions) {
+                return null;
+            },
+            getScheduler: function () {
+                return null;
+            }
+        }
+    });
+
     // @source timer.js
 
     Bridge.define("System.Threading.Timer", {
@@ -26469,10 +27217,38 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.MAX_SUPPORTED_TIMEOUT = 4294967294;
-                    this.EXC_LESS = "Number must be either non-negative and less than or equal to Int32.MaxValue or -1.";
-                    this.EXC_MORE = "Time-out interval must be less than 2^32-2.";
-                    this.EXC_DISPOSED = "The timer has been already disposed.";
+                    Object.defineProperty(this, "MAX_SUPPORTED_TIMEOUT", {
+                        get: function() {
+                            return this._MAX_SUPPORTED_TIMEOUT$ === undefined ? (this._MAX_SUPPORTED_TIMEOUT$ = 4294967294) : this._MAX_SUPPORTED_TIMEOUT$;
+                        },
+                        set: function(v) {
+                            this._MAX_SUPPORTED_TIMEOUT$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_LESS", {
+                        get: function() {
+                            return this._EXC_LESS$ === undefined ? (this._EXC_LESS$ = "Number must be either non-negative and less than or equal to Int32.MaxValue or -1.") : this._EXC_LESS$;
+                        },
+                        set: function(v) {
+                            this._EXC_LESS$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_MORE", {
+                        get: function() {
+                            return this._EXC_MORE$ === undefined ? (this._EXC_MORE$ = "Time-out interval must be less than 2^32-2.") : this._EXC_MORE$;
+                        },
+                        set: function(v) {
+                            this._EXC_MORE$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "EXC_DISPOSED", {
+                        get: function() {
+                            return this._EXC_DISPOSED$ === undefined ? (this._EXC_DISPOSED$ = "The timer has been already disposed.") : this._EXC_DISPOSED$;
+                        },
+                        set: function(v) {
+                            this._EXC_DISPOSED$ = v;
+                        }
+                    });
                 }
             }
         },
@@ -26680,10 +27456,38 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.BitsPerInt32 = 32;
-                    this.BytesPerInt32 = 4;
-                    this.BitsPerByte = 8;
-                    this._ShrinkThreshold = 256;
+                    Object.defineProperty(this, "BitsPerInt32", {
+                        get: function() {
+                            return this._BitsPerInt32$ === undefined ? (this._BitsPerInt32$ = 32) : this._BitsPerInt32$;
+                        },
+                        set: function(v) {
+                            this._BitsPerInt32$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "BytesPerInt32", {
+                        get: function() {
+                            return this._BytesPerInt32$ === undefined ? (this._BytesPerInt32$ = 4) : this._BytesPerInt32$;
+                        },
+                        set: function(v) {
+                            this._BytesPerInt32$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "BitsPerByte", {
+                        get: function() {
+                            return this._BitsPerByte$ === undefined ? (this._BitsPerByte$ = 8) : this._BitsPerByte$;
+                        },
+                        set: function(v) {
+                            this._BitsPerByte$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "_ShrinkThreshold", {
+                        get: function() {
+                            return this.__ShrinkThreshold$ === undefined ? (this.__ShrinkThreshold$ = 256) : this.__ShrinkThreshold$;
+                        },
+                        set: function(v) {
+                            this.__ShrinkThreshold$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -27074,8 +27878,22 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.MarkedBitFlag = 1;
-                    this.IntSize = 32;
+                    Object.defineProperty(this, "MarkedBitFlag", {
+                        get: function() {
+                            return this._MarkedBitFlag$ === undefined ? (this._MarkedBitFlag$ = 1) : this._MarkedBitFlag$;
+                        },
+                        set: function(v) {
+                            this._MarkedBitFlag$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "IntSize", {
+                        get: function() {
+                            return this._IntSize$ === undefined ? (this._IntSize$ = 32) : this._IntSize$;
+                        },
+                        set: function(v) {
+                            this._IntSize$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -27196,8 +28014,22 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.Lower31BitMask = 2147483647;
-                    this.ShrinkThreshold = 3;
+                    Object.defineProperty(this, "Lower31BitMask", {
+                        get: function() {
+                            return this._Lower31BitMask$ === undefined ? (this._Lower31BitMask$ = 2147483647) : this._Lower31BitMask$;
+                        },
+                        set: function(v) {
+                            this._Lower31BitMask$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "ShrinkThreshold", {
+                        get: function() {
+                            return this._ShrinkThreshold$ === undefined ? (this._ShrinkThreshold$ = 3) : this._ShrinkThreshold$;
+                        },
+                        set: function(v) {
+                            this._ShrinkThreshold$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -28166,9 +28998,30 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.MinimumGrow = 4;
-                    this.GrowFactor = 200;
-                    this.DefaultCapacity = 4;
+                    Object.defineProperty(this, "MinimumGrow", {
+                        get: function() {
+                            return this._MinimumGrow$ === undefined ? (this._MinimumGrow$ = 4) : this._MinimumGrow$;
+                        },
+                        set: function(v) {
+                            this._MinimumGrow$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "GrowFactor", {
+                        get: function() {
+                            return this._GrowFactor$ === undefined ? (this._GrowFactor$ = 200) : this._GrowFactor$;
+                        },
+                        set: function(v) {
+                            this._GrowFactor$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "DefaultCapacity", {
+                        get: function() {
+                            return this._DefaultCapacity$ === undefined ? (this._DefaultCapacity$ = 4) : this._DefaultCapacity$;
+                        },
+                        set: function(v) {
+                            this._DefaultCapacity$ = v;
+                        }
+                    });
                 }
             }
         },
@@ -28534,7 +29387,14 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.DefaultCapacity = 4;
+                    Object.defineProperty(this, "DefaultCapacity", {
+                        get: function() {
+                            return this._DefaultCapacity$ === undefined ? (this._DefaultCapacity$ = 4) : this._DefaultCapacity$;
+                        },
+                        set: function(v) {
+                            this._DefaultCapacity$ = v;
+                        }
+                    });
                 }
             }
         },
@@ -28844,8 +29704,17 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
             },
             ctors: {
                 init: function () {
-                    this.HashPrime = 101;
-                    this.primes = System.Array.init([
+                    Object.defineProperty(this, "HashPrime", {
+                        get: function() {
+                            return this._HashPrime$ === undefined ? (this._HashPrime$ = 101) : this._HashPrime$;
+                        },
+                        set: function(v) {
+                            this._HashPrime$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "primes", {
+                        get: function() {
+                            return this._primes$ === undefined ? (this._primes$ = System.Array.init([
                         3, 
                         7, 
                         11, 
@@ -28918,8 +29787,20 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
                         4999559, 
                         5999471, 
                         7199369
-                    ], System.Int32);
-                    this.MaxPrimeArrayLength = 2146435069;
+                    ], System.Int32)) : this._primes$;
+                        },
+                        set: function(v) {
+                            this._primes$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "MaxPrimeArrayLength", {
+                        get: function() {
+                            return this._MaxPrimeArrayLength$ === undefined ? (this._MaxPrimeArrayLength$ = 2146435069) : this._MaxPrimeArrayLength$;
+                        },
+                        set: function(v) {
+                            this._MaxPrimeArrayLength$ = v;
+                        }
+                    });
                 }
             },
             methods: {
@@ -28962,6 +29843,3327 @@ Bridge.define("System.Text.RegularExpressions.RegexParser", {
                     }
                     return System.Collections.HashHelpers.getPrime(newSize);
                 }
+            }
+        }
+    });
+
+    // @source stream.js
+
+    Bridge.define("System.IO.Stream", {
+        inherits: [System.IDisposable],
+        statics: {
+            fields: {
+                null: null
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "null", {
+                        get: function() {
+                            return this._null$ === undefined ? (this._null$ = new System.IO.NullStream()) : this._null$;
+                        },
+                        set: function(v) {
+                            this._null$ = v;
+                        }
+                    });
+                }
+            },
+            methods: {
+                synchronized: function (stream) {
+                    return new System.IO.SynchronizedStream(stream);
+                }
+            }
+        },
+        props: {
+            CanTimeout: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            ReadTimeout: 0,
+            WriteTimeout: 0
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            dispose: function () { },
+            dispose$1: function (disposing) { },
+            close: function () { },
+            readByte: function () {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            writeByte: function (value) { },
+            beginRead: function (buffer, offset, count, callback, state) {
+                return null;
+            },
+            beginWrite: function (buffer, offset, count, callback, state) {
+                return null;
+            },
+            endRead: function (asyncResult) {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            endWrite: function (asyncResult) { },
+            copyTo: function (destination) { },
+            copyTo$1: function (destination, bufferSize) { }
+        }
+    });
+
+    // @source nullStream.js
+
+    Bridge.define("System.IO.NullStream", {
+        inherits: [System.IO.Stream],
+        props: {
+            CanRead: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            CanSeek: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            CanWrite: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            Length: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Int64);
+                }
+            },
+            Position: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Int64);
+                },
+                set: function (value) { }
+            }
+        },
+        methods: {
+            flush: function () { },
+            read: function (buffer, offset, count) {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            readByte: function () {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            seek: function (offset, origin) {
+                return Bridge.getDefaultValue(System.Int64);
+            },
+            setLength: function (value) { },
+            write: function (buffer, offset, count) { },
+            writeByte: function (value) { }
+        }
+    });
+
+    // @source synchronizedStream.js
+
+    Bridge.define("System.IO.SynchronizedStream", {
+        inherits: [System.IO.Stream],
+        props: {
+            CanRead: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            CanSeek: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            CanWrite: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Boolean);
+                }
+            },
+            Length: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Int64);
+                }
+            },
+            Position: {
+                get: function () {
+                    return Bridge.getDefaultValue(System.Int64);
+                },
+                set: function (value) { }
+            }
+        },
+        ctors: {
+            ctor: function (source) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            }
+        },
+        methods: {
+            flush: function () { },
+            read: function (buffer, offset, count) {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            readByte: function () {
+                return Bridge.getDefaultValue(System.Int32);
+            },
+            seek: function (offset, origin) {
+                return Bridge.getDefaultValue(System.Int64);
+            },
+            setLength: function (value) { },
+            write: function (buffer, offset, count) { },
+            writeByte: function (value) { }
+        }
+    });
+
+    // @source decoder.js
+
+    Bridge.define("System.Text.Decoder", {
+        methods: {
+            getCharCount$2: function (bytes, index, count, flush) {
+                throw new System.NotImplementedException();
+            },
+            getCharCount: function (bytes, count, flush) {
+                throw new System.NotImplementedException();
+            },
+            getChars$2: function (bytes, byteIndex, byteCount, chars, charIndex, flush) {
+                throw new System.NotImplementedException();
+            },
+            getChars: function (bytes, byteCount, chars, charCount, flush) {
+                throw new System.NotImplementedException();
+            },
+            reset: function () {
+                throw new System.NotImplementedException();
+            },
+            convert: function (bytes, byteCount, chars, charCount, flush, bytesUsed, charsUsed, completed) {
+                throw new System.NotImplementedException();
+            },
+            convert$1: function (bytes, byteIndex, byteCount, chars, charIndex, charCount, flush, bytesUsed, charsUsed, completed) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source encoding.js
+
+    Bridge.define("System.Text.Encoding", {
+        inherits: [System.ICloneable],
+        statics: {
+            props: {
+                UTF8: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                UTF8UnmarkedUnsafe: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            }
+        },
+        alias: ["clone", "System$ICloneable$clone"],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            getBytes$4: function (s, charIndex, charCount, bytes, byteIndex) {
+                throw new System.NotImplementedException();
+            },
+            getBytes$2: function (s) {
+                throw new System.NotImplementedException();
+            },
+            getBytes$1: function (chars, index, count) {
+                throw new System.NotImplementedException();
+            },
+            getBytes: function (chars) {
+                throw new System.NotImplementedException();
+            },
+            getString$1: function (bytes, index, count) {
+                throw new System.NotImplementedException();
+            },
+            getString: function (bytes) {
+                throw new System.NotImplementedException();
+            },
+            getDecoder: function () {
+                throw new System.NotImplementedException();
+            },
+            clone: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source uTF8Encoding.js
+
+    Bridge.define("System.Text.UTF8Encoding", {
+        inherits: [System.Text.Encoding],
+        methods: {
+            getBytes$3: function (chars, charIndex, charCount, bytes, byteIndex) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source concurrentDictionary.js
+
+    Bridge.define("System.Collections.Concurrent.ConcurrentDictionary$2", function (TKey, TValue) { return {
+        inherits: [System.Collections.Generic.IDictionary$2(TKey,TValue),System.Collections.Generic.ICollection$1(System.Collections.Generic.KeyValuePair$2(TKey,TValue)),System.Collections.Generic.IEnumerable$1(System.Collections.Generic.KeyValuePair$2(TKey,TValue)),System.Collections.IDictionary,System.Collections.ICollection,System.Collections.IEnumerable],
+        statics: {
+            methods: {
+                make: function (U, V, key, value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            Count: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            IsEmpty: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            System$Collections$Generic$ICollection$1$IsReadOnly: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            System$Collections$IDictionary$IsReadOnly: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Keys: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Values: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            System$Collections$IDictionary$Keys: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            System$Collections$IDictionary$Values: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: [
+            "System$Collections$Generic$IDictionary$2$add", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$add",
+            "System$Collections$Generic$ICollection$1$add", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$add",
+            "tryGetValue", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$tryGetValue",
+            "getItem", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$getItem",
+            "setItem", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$setItem",
+            "System$Collections$Generic$IDictionary$2$remove", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$remove",
+            "System$Collections$Generic$ICollection$1$remove", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$remove",
+            "containsKey", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$containsKey",
+            "System$Collections$Generic$ICollection$1$contains", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$contains",
+            "clear", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$clear",
+            "Count", "System$Collections$ICollection$Count",
+            "Count", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$Count",
+            "System$Collections$Generic$ICollection$1$IsReadOnly", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$IsReadOnly",
+            "Keys", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$Keys",
+            "Values", "System$Collections$Generic$IDictionary$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$Values",
+            "System$Collections$Generic$ICollection$1$copyTo", "System$Collections$Generic$ICollection$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$copyTo",
+            "getEnumerator", ["System$Collections$Generic$IEnumerable$1$System$Collections$Generic$KeyValuePair$2$" + Bridge.getTypeAlias(TKey) + "$" + Bridge.getTypeAlias(TValue) + "$getEnumerator", "System$Collections$Generic$IEnumerable$1$getEnumerator"],
+            "containsKey$1", "System$Collections$IDictionary$containsKey",
+            "remove", "System$Collections$IDictionary$remove"
+        ],
+        ctors: {
+            ctor: function () {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor3.call(this, System.Collections.Generic.EqualityComparer$1(TKey).def);
+            },
+            $ctor1: function (collection) {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor2.call(this, collection, System.Collections.Generic.EqualityComparer$1(TKey).def);
+            },
+            $ctor3: function (comparer) {
+                this.$initialize();
+            },
+            $ctor2: function (collection, comparer) {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor3.call(this, comparer);
+            },
+            $ctor5: function (concurrencyLevel, capacity) {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor3.call(this, System.Collections.Generic.EqualityComparer$1(TKey).def);
+            },
+            $ctor4: function (concurrencyLevel, collection, comparer) {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor2.call(this, collection, comparer);
+            },
+            $ctor6: function (concurrencyLevel, capacity, comparer) {
+                System.Collections.Concurrent.ConcurrentDictionary$2(TKey,TValue).$ctor3.call(this, comparer);
+            }
+        },
+        methods: {
+            getItem: function (key) {
+                throw new System.NotImplementedException();
+            },
+            setItem: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            getItem: function (key) {
+                throw new System.NotImplementedException();
+            },
+            setItem: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            checkKey: function (key) {
+                throw new System.NotImplementedException();
+            },
+            add: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$IDictionary$2$add: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$ICollection$1$add: function (pair) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$IDictionary$add: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            tryAdd: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            addOrUpdate$1: function (key, addValueFactory, updateValueFactory) {
+                throw new System.NotImplementedException();
+            },
+            addOrUpdate: function (key, addValue, updateValueFactory) {
+                throw new System.NotImplementedException();
+            },
+            addOrUpdate$2: function (key, addValue, updateValue) {
+                throw new System.NotImplementedException();
+            },
+            getValue: function (key) {
+                throw new System.NotImplementedException();
+            },
+            tryGetValue: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            tryUpdate: function (key, newValue, comparisonValue) {
+                throw new System.NotImplementedException();
+            },
+            getOrAdd$1: function (key, valueFactory) {
+                throw new System.NotImplementedException();
+            },
+            getOrAdd: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            tryRemove: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            remove$1: function (key) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$IDictionary$2$remove: function (key) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$ICollection$1$remove: function (pair) {
+                throw new System.NotImplementedException();
+            },
+            remove: function (key) {
+                throw new System.NotImplementedException();
+            },
+            containsKey: function (key) {
+                throw new System.NotImplementedException();
+            },
+            containsKey$1: function (key) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$ICollection$1$contains: function (pair) {
+                throw new System.NotImplementedException();
+            },
+            toArray: function () {
+                throw new System.NotImplementedException();
+            },
+            clear: function () {
+                throw new System.NotImplementedException();
+            },
+            getPart: function (T, extractor) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$ICollection$copyTo: function (array, startIndex) {
+                throw new System.NotImplementedException();
+            },
+            copyTo: function (array, startIndex) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$ICollection$1$copyTo: function (array, startIndex) {
+                throw new System.NotImplementedException();
+            },
+            copyTo$1: function (array, startIndex, num) {
+                throw new System.NotImplementedException();
+            },
+            getEnumerator: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$IEnumerable$getEnumerator: function () {
+                throw new System.NotImplementedException();
+            },
+            getEnumeratorInternal: function () {
+                throw new System.NotImplementedException();
+            },
+            hash: function (key) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source concurrentDictionaryEnumerator.js
+
+    Bridge.define("System.Collections.Concurrent.ConcurrentDictionary$2.ConcurrentDictionaryEnumerator", function (TKey, TValue) { return {
+        inherits: [System.Collections.IDictionaryEnumerator],
+        props: {
+            Current: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Entry: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Key: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Value: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: [
+            "moveNext", "System$Collections$IEnumerator$moveNext",
+            "reset", "System$Collections$IEnumerator$reset",
+            "Current", "System$Collections$IEnumerator$Current",
+            "Entry", "System$Collections$IDictionaryEnumerator$Entry",
+            "Key", "System$Collections$IDictionaryEnumerator$Key",
+            "Value", "System$Collections$IDictionaryEnumerator$Value"
+        ],
+        ctors: {
+            ctor: function (internalEnum) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            moveNext: function () {
+                throw new System.NotImplementedException();
+            },
+            reset: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source dictionaryEntry.js
+
+    Bridge.define("System.Collections.DictionaryEntry", {
+        $kind: "struct",
+        statics: {
+            methods: {
+                getDefaultValue: function () { return new System.Collections.DictionaryEntry(); }
+            }
+        },
+        props: {
+            Key: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Value: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            $ctor1: function (key, value) {
+                this.$initialize();
+            },
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            $clone: function (to) { return this; }
+        }
+    });
+
+    // @source iSerializable.js
+
+    Bridge.define("System.Runtime.Serialization.ISerializable", {
+        $kind: "interface"
+    });
+
+    // @source linkedList.js
+
+    Bridge.define("System.Collections.Generic.LinkedList$1", function (T) { return {
+        inherits: [System.Collections.Generic.ICollection$1(T),System.Collections.ICollection,System.Runtime.Serialization.ISerializable,System.Runtime.Serialization.IDeserializationCallback],
+        statics: {
+            methods: {
+                verifyBlankNode: function (newNode) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            Count: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            First: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Last: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            IsReadOnly: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: [
+            "clear", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$clear",
+            "contains", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$contains",
+            "copyTo", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$copyTo",
+            "getObjectData", "System$Runtime$Serialization$ISerializable$getObjectData",
+            "onDeserialization", "System$Runtime$Serialization$IDeserializationCallback$onDeserialization",
+            "remove", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$remove",
+            "System$Collections$Generic$ICollection$1$add", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$add",
+            "System$Collections$Generic$IEnumerable$1$getEnumerator", "System$Collections$Generic$IEnumerable$1$" + Bridge.getTypeAlias(T) + "$getEnumerator",
+            "Count", "System$Collections$ICollection$Count",
+            "Count", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$Count",
+            "IsReadOnly", "System$Collections$Generic$ICollection$1$" + Bridge.getTypeAlias(T) + "$IsReadOnly"
+        ],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            },
+            $ctor1: function (collection) {
+                this.$initialize();
+            },
+            $ctor2: function (info, context) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            verifyReferencedNode: function (node) {
+                throw new System.NotImplementedException();
+            },
+            addAfter: function (node, value) {
+                throw new System.NotImplementedException();
+            },
+            addAfter$1: function (node, newNode) {
+                throw new System.NotImplementedException();
+            },
+            addBefore: function (node, value) {
+                throw new System.NotImplementedException();
+            },
+            addBefore$1: function (node, newNode) {
+                throw new System.NotImplementedException();
+            },
+            addFirst$1: function (node) {
+                throw new System.NotImplementedException();
+            },
+            addFirst: function (value) {
+                throw new System.NotImplementedException();
+            },
+            addLast: function (value) {
+                throw new System.NotImplementedException();
+            },
+            addLast$1: function (node) {
+                throw new System.NotImplementedException();
+            },
+            clear: function () {
+                throw new System.NotImplementedException();
+            },
+            contains: function (value) {
+                throw new System.NotImplementedException();
+            },
+            copyTo: function (array, index) {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$ICollection$copyTo: function (array, index) {
+                throw new System.NotImplementedException();
+            },
+            find: function (value) {
+                throw new System.NotImplementedException();
+            },
+            findLast: function (value) {
+                throw new System.NotImplementedException();
+            },
+            getEnumerator: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$IEnumerable$1$getEnumerator: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$IEnumerable$getEnumerator: function () {
+                throw new System.NotImplementedException();
+            },
+            getObjectData: function (info, context) {
+                throw new System.NotImplementedException();
+            },
+            onDeserialization: function (sender) {
+                throw new System.NotImplementedException();
+            },
+            remove: function (value) {
+                throw new System.NotImplementedException();
+            },
+            remove$1: function (node) {
+                throw new System.NotImplementedException();
+            },
+            removeFirst: function () {
+                throw new System.NotImplementedException();
+            },
+            removeLast: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$Generic$ICollection$1$add: function (value) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source enumerator.js
+
+    Bridge.define("System.Collections.Generic.LinkedList$1.Enumerator", function (T) { return {
+        inherits: [System.Collections.Generic.IEnumerator$1(T),System.IDisposable,System.Collections.IEnumerator,System.Runtime.Serialization.ISerializable,System.Runtime.Serialization.IDeserializationCallback],
+        $kind: "struct",
+        statics: {
+            fields: {
+                VersionKey: null,
+                IndexKey: null,
+                ListKey: null
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "VersionKey", {
+                        get: function() {
+                            return this._VersionKey$ === undefined ? (this._VersionKey$ = "version") : this._VersionKey$;
+                        },
+                        set: function(v) {
+                            this._VersionKey$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "IndexKey", {
+                        get: function() {
+                            return this._IndexKey$ === undefined ? (this._IndexKey$ = "index") : this._IndexKey$;
+                        },
+                        set: function(v) {
+                            this._IndexKey$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "ListKey", {
+                        get: function() {
+                            return this._ListKey$ === undefined ? (this._ListKey$ = "list") : this._ListKey$;
+                        },
+                        set: function(v) {
+                            this._ListKey$ = v;
+                        }
+                    });
+                }
+            },
+            methods: {
+                getDefaultValue: function () { return new (System.Collections.Generic.LinkedList$1.Enumerator(T))(); }
+            }
+        },
+        props: {
+            Current: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            System$Collections$IEnumerator$Current: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: [
+            "Current", ["System$Collections$Generic$IEnumerator$1$" + Bridge.getTypeAlias(T) + "$Current$1", "System$Collections$Generic$IEnumerator$1$Current$1"],
+            "moveNext", "System$Collections$IEnumerator$moveNext",
+            "dispose", "System$IDisposable$dispose"
+        ],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            moveNext: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Collections$IEnumerator$reset: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            },
+            System$Runtime$Serialization$ISerializable$getObjectData: function (info, context) {
+                throw new System.NotImplementedException();
+            },
+            System$Runtime$Serialization$IDeserializationCallback$onDeserialization: function (sender) {
+                throw new System.NotImplementedException();
+            },
+            $clone: function (to) { return this; }
+        }
+    }; });
+
+    // @source linkedListNode.js
+
+    Bridge.define("System.Collections.Generic.LinkedListNode$1", function (T) { return {
+        props: {
+            List: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Next: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Previous: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Value: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (value) {
+                this.$initialize();
+            },
+            $ctor1: function (list, value) {
+                this.$initialize();
+            },
+            $ctor2: function (list, value, previousNode, nextNode) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            detach: function () {
+                throw new System.NotImplementedException();
+            },
+            selfReference: function (list) {
+                throw new System.NotImplementedException();
+            },
+            insertBetween: function (previousNode, nextNode, list) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source iDictionaryEnumerator.js
+
+    Bridge.define("System.Collections.IDictionaryEnumerator", {
+        inherits: [System.Collections.IEnumerator],
+        $kind: "interface"
+    });
+
+    // @source stackFrame.js
+
+    Bridge.define("System.Diagnostics.StackFrame", {
+        statics: {
+            fields: {
+                OFFSET_UNKNOWN: 0
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "OFFSET_UNKNOWN", {
+                        get: function() {
+                            return this._OFFSET_UNKNOWN$ === undefined ? (this._OFFSET_UNKNOWN$ = -1) : this._OFFSET_UNKNOWN$;
+                        },
+                        set: function(v) {
+                            this._OFFSET_UNKNOWN$ = v;
+                        }
+                    });
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            },
+            $ctor1: function (fNeedFileInfo) {
+                this.$initialize();
+            },
+            $ctor2: function (skipFrames) {
+                this.$initialize();
+            },
+            $ctor3: function (skipFrames, fNeedFileInfo) {
+                this.$initialize();
+            },
+            $ctor4: function (fileName, lineNumber) {
+                this.$initialize();
+            },
+            $ctor5: function (fileName, lineNumber, colNumber) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            getFileLineNumber: function () {
+                throw new System.NotImplementedException();
+            },
+            getFileColumnNumber: function () {
+                throw new System.NotImplementedException();
+            },
+            getFileName: function () {
+                throw new System.NotImplementedException();
+            },
+            getSecureFileName: function () {
+                throw new System.NotImplementedException();
+            },
+            getILOffset: function () {
+                throw new System.NotImplementedException();
+            },
+            getMethod: function () {
+                throw new System.NotImplementedException();
+            },
+            getNativeOffset: function () {
+                throw new System.NotImplementedException();
+            },
+            getMethodAddress: function () {
+                throw new System.NotImplementedException();
+            },
+            getMethodIndex: function () {
+                throw new System.NotImplementedException();
+            },
+            getInternalMethodName: function () {
+                throw new System.NotImplementedException();
+            },
+            toString: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source stackTrace.js
+
+    Bridge.define("System.Diagnostics.StackTrace", {
+        statics: {
+            fields: {
+                METHODS_TO_SKIP: 0
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "METHODS_TO_SKIP", {
+                        get: function() {
+                            return this._METHODS_TO_SKIP$ === undefined ? (this._METHODS_TO_SKIP$ = 0) : this._METHODS_TO_SKIP$;
+                        },
+                        set: function(v) {
+                            this._METHODS_TO_SKIP$ = v;
+                        }
+                    });
+                }
+            },
+            methods: {
+                getFullNameForStackTrace: function (sb, mi) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            FrameCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            },
+            $ctor1: function (fNeedFileInfo) {
+                this.$initialize();
+            },
+            $ctor8: function (skipFrames) {
+                this.$initialize();
+            },
+            $ctor9: function (skipFrames, fNeedFileInfo) {
+                this.$initialize();
+            },
+            $ctor4: function (e) {
+                System.Diagnostics.StackTrace.$ctor7.call(this, e, System.Diagnostics.StackTrace.METHODS_TO_SKIP, false);
+            },
+            $ctor5: function (e, fNeedFileInfo) {
+                System.Diagnostics.StackTrace.$ctor7.call(this, e, System.Diagnostics.StackTrace.METHODS_TO_SKIP, fNeedFileInfo);
+            },
+            $ctor6: function (e, skipFrames) {
+                System.Diagnostics.StackTrace.$ctor7.call(this, e, skipFrames, false);
+            },
+            $ctor7: function (e, skipFrames, fNeedFileInfo) {
+                this.$initialize();
+            },
+            $ctor2: function (frame) {
+                this.$initialize();
+            },
+            $ctor10: function (targetThread, needFileInfo) {
+                this.$initialize();
+            },
+            $ctor3: function (frames) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            getFrame: function (index) {
+                throw new System.NotImplementedException();
+            },
+            getFrames: function () {
+                throw new System.NotImplementedException();
+            },
+            addFrames: function (sb) {
+                throw new System.NotImplementedException();
+            },
+            toString: function () {
+                throw new System.NotImplementedException();
+            },
+            toString$1: function (traceFormat) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source traceFormat.js
+
+    Bridge.define("System.Diagnostics.StackTrace.TraceFormat", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Normal: 0,
+                TrailingNewLine: 1,
+                NoResourceLookup: 2
+            }
+        }
+    });
+
+    // @source gC.js
+
+    Bridge.define("System.GC", {
+        statics: {
+            props: {
+                MaxGeneration: 0
+            },
+            methods: {
+                collect: function () {
+                    throw new System.NotImplementedException();
+                },
+                collect$1: function (generation) {
+                    throw new System.NotImplementedException();
+                },
+                collect$2: function (generation, mode) {
+                    throw new System.NotImplementedException();
+                },
+                collect$3: function (generation, mode, blocking) {
+                    throw new System.NotImplementedException();
+                },
+                getGeneration: function (wo) {
+                    throw new System.NotImplementedException();
+                },
+                addMemoryPressure: function (bytesAllocated) {
+                    throw new System.NotImplementedException();
+                },
+                removeMemoryPressure: function (bytesAllocated) {
+                    throw new System.NotImplementedException();
+                },
+                waitForFullGCApproach: function () {
+                    throw new System.NotImplementedException();
+                },
+                waitForFullGCApproach$1: function (millisecondsTimeout) {
+                    throw new System.NotImplementedException();
+                },
+                waitForFullGCComplete: function () {
+                    throw new System.NotImplementedException();
+                },
+                waitForFullGCComplete$1: function (millisecondsTimeout) {
+                    throw new System.NotImplementedException();
+                },
+                registerForFullGCNotification: function (maxGenerationThreshold, largeObjectHeapThreshold) {
+                    throw new System.NotImplementedException();
+                },
+                cancelFullGCNotification: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        }
+    });
+
+    // @source gCCollectionMode.js
+
+    Bridge.define("System.GCCollectionMode", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Default: 0,
+                Forced: 1,
+                Optimized: 2
+            }
+        }
+    });
+
+    // @source gCNotificationStatus.js
+
+    Bridge.define("System.GCNotificationStatus", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Succeeded: 0,
+                Failed: 1,
+                Canceled: 2,
+                Timeout: 3,
+                NotApplicable: 4
+            }
+        }
+    });
+
+    // @source iAsyncResult.js
+
+    Bridge.define("System.IAsyncResult", {
+        $kind: "interface"
+    });
+
+    // @source binaryReader.js
+
+    Bridge.define("System.IO.BinaryReader", {
+        inherits: [System.IDisposable],
+        props: {
+            BaseStream: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function (input) {
+                System.IO.BinaryReader.$ctor1.call(this, input, System.Text.Encoding.UTF8UnmarkedUnsafe);
+            },
+            $ctor1: function (input, encoding) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            close: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            },
+            peekChar: function () {
+                throw new System.NotImplementedException();
+            },
+            read: function () {
+                throw new System.NotImplementedException();
+            },
+            read$1: function (buffer, index, count) {
+                throw new System.NotImplementedException();
+            },
+            read$2: function (buffer, index, count) {
+                throw new System.NotImplementedException();
+            },
+            readBoolean: function () {
+                throw new System.NotImplementedException();
+            },
+            readByte: function () {
+                throw new System.NotImplementedException();
+            },
+            readBytes: function (count) {
+                throw new System.NotImplementedException();
+            },
+            readChar: function () {
+                throw new System.NotImplementedException();
+            },
+            readChars: function (count) {
+                throw new System.NotImplementedException();
+            },
+            readDecimal: function () {
+                throw new System.NotImplementedException();
+            },
+            readDouble: function () {
+                throw new System.NotImplementedException();
+            },
+            readInt16: function () {
+                throw new System.NotImplementedException();
+            },
+            readInt32: function () {
+                throw new System.NotImplementedException();
+            },
+            readInt64: function () {
+                throw new System.NotImplementedException();
+            },
+            readSByte: function () {
+                throw new System.NotImplementedException();
+            },
+            readString: function () {
+                throw new System.NotImplementedException();
+            },
+            readSingle: function () {
+                throw new System.NotImplementedException();
+            },
+            readUInt16: function () {
+                throw new System.NotImplementedException();
+            },
+            readUInt32: function () {
+                throw new System.NotImplementedException();
+            },
+            readUInt64: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source file.js
+
+    Bridge.define("System.IO.File", {
+        statics: {
+            props: {
+                DefaultLocalFileTime: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            },
+            methods: {
+                appendAllText: function (path, contents) {
+                    throw new System.NotImplementedException();
+                },
+                appendAllText$1: function (path, contents, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                appendText: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                copy: function (sourceFileName, destFileName) {
+                    throw new System.NotImplementedException();
+                },
+                copy$1: function (sourceFileName, destFileName, overwrite) {
+                    throw new System.NotImplementedException();
+                },
+                internalCopy: function (sourceFileName, destFileName, overwrite, checkHost) {
+                    throw new System.NotImplementedException();
+                },
+                create: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                create$1: function (path, bufferSize) {
+                    throw new System.NotImplementedException();
+                },
+                createText: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                delete: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                exists: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getCreationTime: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getCreationTimeUtc: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getLastAccessTime: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getLastAccessTimeUtc: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getLastWriteTime: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getLastWriteTimeUtc: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                move: function (sourceFileName, destFileName) {
+                    throw new System.NotImplementedException();
+                },
+                open: function (path, mode) {
+                    throw new System.NotImplementedException();
+                },
+                openRead: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                openText: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                openWrite: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                replace: function (sourceFileName, destinationFileName, destinationBackupFileName) {
+                    throw new System.NotImplementedException();
+                },
+                replace$1: function (sourceFileName, destinationFileName, destinationBackupFileName, ignoreMetadataErrors) {
+                    throw new System.NotImplementedException();
+                },
+                setCreationTime: function (path, creationTime) {
+                    throw new System.NotImplementedException();
+                },
+                setCreationTimeUtc: function (path, creationTimeUtc) {
+                    throw new System.NotImplementedException();
+                },
+                setLastAccessTime: function (path, lastAccessTime) {
+                    throw new System.NotImplementedException();
+                },
+                setLastAccessTimeUtc: function (path, lastAccessTimeUtc) {
+                    throw new System.NotImplementedException();
+                },
+                setLastWriteTime: function (path, lastWriteTime) {
+                    throw new System.NotImplementedException();
+                },
+                setLastWriteTimeUtc: function (path, lastWriteTimeUtc) {
+                    throw new System.NotImplementedException();
+                },
+                readAllBytes: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                readAllLines: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                readAllLines$1: function (path, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                readAllText: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                readAllText$1: function (path, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllBytes: function (path, bytes) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllLines$2: function (path, contents) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllLines$3: function (path, contents, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllLines$4: function (writer, contents) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllLines: function (path, contents) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllLines$1: function (path, contents, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllText: function (path, contents) {
+                    throw new System.NotImplementedException();
+                },
+                writeAllText$1: function (path, contents, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                encrypt: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                decrypt: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                readLines: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                readLines$1: function (path, encoding) {
+                    throw new System.NotImplementedException();
+                },
+                appendAllLines: function (path, contents) {
+                    throw new System.NotImplementedException();
+                },
+                appendAllLines$1: function (path, contents, encoding) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        }
+    });
+
+    // @source fileInfo.js
+
+    Bridge.define("System.IO.FileInfo");
+
+    // @source fileMode.js
+
+    Bridge.define("System.IO.FileMode", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                CreateNew: 1,
+                Create: 2,
+                Open: 3,
+                OpenOrCreate: 4,
+                Truncate: 5,
+                Append: 6
+            }
+        }
+    });
+
+    // @source iOException.js
+
+    Bridge.define("System.IO.IOException", {
+        inherits: [System.SystemException],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                System.SystemException.ctor.call(this, "I/O Error");
+            },
+            $ctor1: function (message) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message);
+            },
+            $ctor2: function (message, innerException) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message, innerException);
+            },
+            $ctor3: function (message, hresult) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message);
+            }
+        }
+    });
+
+    // @source fileNotFoundException.js
+
+    Bridge.define("System.IO.FileNotFoundException", {
+        inherits: [System.IO.IOException],
+        props: {
+            FileName: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            FusionLog: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Message: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                System.IO.IOException.$ctor1.call(this, "Unable to find the specified file.");
+            },
+            $ctor1: function (message) {
+                this.$initialize();
+                System.IO.IOException.$ctor1.call(this, message);
+            },
+            $ctor2: function (message, innerException) {
+                this.$initialize();
+                System.IO.IOException.$ctor2.call(this, message, innerException);
+            },
+            $ctor3: function (message, fileName) {
+                this.$initialize();
+                System.IO.IOException.$ctor1.call(this, message);
+            },
+            $ctor4: function (message, fileName, innerException) {
+                this.$initialize();
+                System.IO.IOException.$ctor2.call(this, message, innerException);
+            }
+        },
+        methods: {
+            toString: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source fileStream.js
+
+    Bridge.define("System.IO.FileStream", {
+        inherits: [System.IO.Stream],
+        props: {
+            CanRead: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CanSeek: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CanWrite: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Length: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Position: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        methods: {
+            flush: function () {
+                throw new System.NotImplementedException();
+            },
+            read: function (buffer, offset, count) {
+                throw new System.NotImplementedException();
+            },
+            seek: function (offset, origin) {
+                throw new System.NotImplementedException();
+            },
+            setLength: function (value) {
+                throw new System.NotImplementedException();
+            },
+            write: function (buffer, offset, count) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source fileSystemInfo.js
+
+    Bridge.define("System.IO.FileSystemInfo", {
+        inherits: [System.Runtime.Serialization.ISerializable],
+        props: {
+            FullName: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Extension: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CreationTime: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CreationTimeUtc: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            LastAccessTime: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            LastAccessTimeUtc: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            LastWriteTime: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            LastWriteTimeUtc: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["getObjectData", "System$Runtime$Serialization$ISerializable$getObjectData"],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                throw new System.NotImplementedException();
+            },
+            $ctor1: function (info, context) {
+                this.$initialize();
+                throw new System.NotImplementedException();
+            }
+        },
+        methods: {
+            getObjectData: function (info, context) {
+                throw new System.NotImplementedException();
+            },
+            refresh: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source directoryInfo.js
+
+    Bridge.define("System.IO.DirectoryInfo", {
+        inherits: [System.IO.FileSystemInfo],
+        props: {
+            Exists: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Name: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Parent: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Root: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (path) {
+                System.IO.DirectoryInfo.$ctor1.call(this, path, false);
+            },
+            $ctor1: function (path, simpleOriginalPath) {
+                this.$initialize();
+                System.IO.FileSystemInfo.ctor.call(this);
+            }
+        },
+        methods: {
+            create: function () {
+                throw new System.NotImplementedException();
+            },
+            createSubdirectory: function (path) {
+                throw new System.NotImplementedException();
+            },
+            getFiles: function () {
+                throw new System.NotImplementedException();
+            },
+            getFiles$1: function (searchPattern) {
+                throw new System.NotImplementedException();
+            },
+            getDirectories: function () {
+                throw new System.NotImplementedException();
+            },
+            getDirectories$1: function (searchPattern) {
+                throw new System.NotImplementedException();
+            },
+            getFileSystemInfos: function () {
+                throw new System.NotImplementedException();
+            },
+            delete: function () {
+                throw new System.NotImplementedException();
+            },
+            delete$1: function (recursive) {
+                throw new System.NotImplementedException();
+            },
+            moveTo: function (destDirName) {
+                throw new System.NotImplementedException();
+            },
+            toString: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source invalidDataException.js
+
+    Bridge.define("System.IO.InvalidDataException", {
+        inherits: [System.SystemException],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                System.SystemException.ctor.call(this, "Invalid data format.");
+            },
+            $ctor1: function (message) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message);
+            },
+            $ctor2: function (message, innerException) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message, innerException);
+            }
+        }
+    });
+
+    // @source memoryStream.js
+
+    Bridge.define("System.IO.MemoryStream", {
+        inherits: [System.IO.Stream],
+        props: {
+            CanRead: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CanSeek: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CanWrite: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Capacity: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Length: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Position: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                System.IO.MemoryStream.$ctor6.call(this, 0);
+            },
+            $ctor6: function (capacity) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            },
+            $ctor1: function (buffer) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            },
+            $ctor2: function (buffer, writable) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            },
+            $ctor3: function (buffer, index, count) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            },
+            $ctor4: function (buffer, index, count, writable) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            },
+            $ctor5: function (buffer, index, count, writable, publiclyVisible) {
+                this.$initialize();
+                System.IO.Stream.ctor.call(this);
+            }
+        },
+        methods: {
+            dispose$1: function (disposing) {
+                throw new System.NotImplementedException();
+            },
+            flush: function () {
+                throw new System.NotImplementedException();
+            },
+            getBuffer: function () {
+                throw new System.NotImplementedException();
+            },
+            getByteArray: function () {
+                throw new System.NotImplementedException();
+            },
+            read: function (buffer, offset, count) {
+                throw new System.NotImplementedException();
+            },
+            readByte: function () {
+                throw new System.NotImplementedException();
+            },
+            seek: function (offset, loc) {
+                throw new System.NotImplementedException();
+            },
+            setLength: function (value) {
+                throw new System.NotImplementedException();
+            },
+            toArray: function () {
+                throw new System.NotImplementedException();
+            },
+            write: function (buffer, offset, count) {
+                throw new System.NotImplementedException();
+            },
+            writeByte: function (value) {
+                throw new System.NotImplementedException();
+            },
+            writeTo: function (stream) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source path.js
+
+    Bridge.define("System.IO.Path", {
+        statics: {
+            fields: {
+                invalidPathChars: null,
+                altDirectorySeparatorChar: 0,
+                directorySeparatorChar: 0,
+                pathSeparator: 0,
+                directorySeparatorStr: null,
+                volumeSeparatorChar: 0,
+                pathSeparatorChars: null
+            },
+            props: {
+                DirectorySeparatorCharAsString: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            },
+            methods: {
+                changeExtension: function (path, extension) {
+                    throw new System.NotImplementedException();
+                },
+                combine: function (path1, path2) {
+                    throw new System.NotImplementedException();
+                },
+                combine$3: function (paths) {
+                    if (paths === void 0) { paths = []; }
+                    throw new System.NotImplementedException();
+                },
+                combine$1: function (path1, path2, path3) {
+                    throw new System.NotImplementedException();
+                },
+                combine$2: function (path1, path2, path3, path4) {
+                    throw new System.NotImplementedException();
+                },
+                cleanPath: function (s) {
+                    throw new System.NotImplementedException();
+                },
+                getDirectoryName: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getExtension: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getFileName: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getFileNameWithoutExtension: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getFullPath: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getFullPathInternal: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getFullPathName: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                windowsDriveAdjustment: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                insecureGetFullPath: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                isDirectorySeparator: function (c) {
+                    throw new System.NotImplementedException();
+                },
+                getPathRoot: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getTempFileName: function () {
+                    throw new System.NotImplementedException();
+                },
+                getTempPath: function () {
+                    throw new System.NotImplementedException();
+                },
+                hasExtension: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                isPathRooted: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                getInvalidFileNameChars: function () {
+                    throw new System.NotImplementedException();
+                },
+                getInvalidPathChars: function () {
+                    throw new System.NotImplementedException();
+                },
+                getRandomFileName: function () {
+                    throw new System.NotImplementedException();
+                },
+                validate: function (path) {
+                    throw new System.NotImplementedException();
+                },
+                validate$1: function (path, parameterName) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        }
+    });
+
+    // @source seekOrigin.js
+
+    Bridge.define("System.IO.SeekOrigin", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Begin: 0,
+                Current: 1,
+                End: 2
+            }
+        }
+    });
+
+    // @source streamReader.js
+
+    Bridge.define("System.IO.StreamReader");
+
+    // @source streamWriter.js
+
+    Bridge.define("System.IO.StreamWriter");
+
+    // @source textReader.js
+
+    Bridge.define("System.IO.TextReader", {
+        inherits: [System.IDisposable],
+        statics: {
+            fields: {
+                null: null
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "null", {
+                        get: function() {
+                            return this._null$ === undefined ? (this._null$ = new System.IO.TextReader.NullTextReader()) : this._null$;
+                        },
+                        set: function(v) {
+                            this._null$ = v;
+                        }
+                    });
+                }
+            },
+            methods: {
+                synchronized: function (reader) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            close: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            },
+            peek: function () {
+                throw new System.NotImplementedException();
+            },
+            read: function () {
+                throw new System.NotImplementedException();
+            },
+            read$1: function (buffer, index, count) {
+                throw new System.NotImplementedException();
+            },
+            readBlock: function (buffer, index, count) {
+                throw new System.NotImplementedException();
+            },
+            readLine: function () {
+                throw new System.NotImplementedException();
+            },
+            readToEnd: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source nullTextReader.js
+
+    Bridge.define("System.IO.TextReader.NullTextReader", {
+        inherits: [System.IO.TextReader],
+        methods: {
+            readLine: function () {
+                throw new System.NotImplementedException();
+            },
+            readToEnd: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source lazy.js
+
+    Bridge.define("System.Lazy$1", function (T) { return {
+        props: {
+            Value: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            IsValueCreated: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                System.Lazy$1(T).$ctor5.call(this, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
+            },
+            $ctor2: function (valueFactory) {
+                System.Lazy$1(T).$ctor4.call(this, valueFactory, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
+            },
+            $ctor1: function (isThreadSafe) {
+                System.Lazy$1(T).$ctor4.call(this, function () {
+                    return Bridge.createInstance(T);
+                }, isThreadSafe ? System.Threading.LazyThreadSafetyMode.ExecutionAndPublication : System.Threading.LazyThreadSafetyMode.None);
+            },
+            $ctor3: function (valueFactory, isThreadSafe) {
+                System.Lazy$1(T).$ctor4.call(this, valueFactory, isThreadSafe ? System.Threading.LazyThreadSafetyMode.ExecutionAndPublication : System.Threading.LazyThreadSafetyMode.None);
+            },
+            $ctor5: function (mode) {
+                System.Lazy$1(T).$ctor4.call(this, function () {
+                    return Bridge.createInstance(T);
+                }, mode);
+            },
+            $ctor4: function (valueFactory, mode) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            initValue: function () {
+                throw new System.NotImplementedException();
+            },
+            toString: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source assemblyName.js
+
+    Bridge.define("System.Reflection.AssemblyName", {
+        props: {
+            Name: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            },
+            $ctor1: function (assemblyName) {
+                this.$initialize();
+            }
+        }
+    });
+
+    // @source iReflectableType.js
+
+    Bridge.define("System.Reflection.IReflectableType", {
+        $kind: "interface"
+    });
+
+    // @source interfaceMapping.js
+
+    Bridge.define("System.Reflection.InterfaceMapping", {
+        $kind: "struct",
+        statics: {
+            methods: {
+                getDefaultValue: function () { return new System.Reflection.InterfaceMapping(); }
+            }
+        },
+        fields: {
+            interfaceMethods: null,
+            interfaceType: null,
+            targetMethods: null,
+            targetType: null
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            getHashCode: function () {
+                var h = Bridge.addHash([6990171024, this.interfaceMethods, this.interfaceType, this.targetMethods, this.targetType]);
+                return h;
+            },
+            equals: function (o) {
+                if (!Bridge.is(o, System.Reflection.InterfaceMapping)) {
+                    return false;
+                }
+                return Bridge.equals(this.interfaceMethods, o.interfaceMethods) && Bridge.equals(this.interfaceType, o.interfaceType) && Bridge.equals(this.targetMethods, o.targetMethods) && Bridge.equals(this.targetType, o.targetType);
+            },
+            $clone: function (to) {
+                var s = to || new System.Reflection.InterfaceMapping();
+                s.interfaceMethods = this.interfaceMethods;
+                s.interfaceType = this.interfaceType;
+                s.targetMethods = this.targetMethods;
+                s.targetType = this.targetType;
+                return s;
+            }
+        }
+    });
+
+    // @source introspectionExtensions.js
+
+    Bridge.define("System.Reflection.IntrospectionExtensions", {
+        statics: {
+            methods: {
+                getTypeInfo: function (type) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        }
+    });
+
+    // @source runtimeReflectionExtensions.js
+
+    Bridge.define("System.Reflection.RuntimeReflectionExtensions", {
+        statics: {
+            methods: {
+                getRuntimeProperties: function (type) {
+                    return null;
+                },
+                getRuntimeEvents: function (type) {
+                    return null;
+                },
+                getRuntimeMethods: function (type) {
+                    return null;
+                },
+                getRuntimeFields: function (type) {
+                    return null;
+                },
+                getRuntimeProperty: function (type, name) {
+                    return null;
+                },
+                getRuntimeEvent: function (type, name) {
+                    return null;
+                },
+                getRuntimeMethod: function (type, name, parameters) {
+                    return null;
+                },
+                getRuntimeField: function (type, name) {
+                    return null;
+                },
+                getRuntimeBaseDefinition: function (method) {
+                    return null;
+                },
+                getRuntimeInterfaceMap: function (typeInfo, interfaceType) {
+                    return Bridge.getDefaultValue(System.Reflection.InterfaceMapping);
+                },
+                getMethodInfo: function (del) {
+                    return null;
+                }
+            }
+        }
+    });
+
+    // @source typeInfo.js
+
+    Bridge.define("System.Reflection.TypeInfo", {
+        inherits: [Function,System.Reflection.IReflectableType],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            System$Reflection$IReflectableType$getTypeInfo: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source conditionalWeakTable.js
+
+    Bridge.define("System.Runtime.CompilerServices.ConditionalWeakTable$2", function (TKey, TValue) { return {
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            add: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            remove: function (key) {
+                throw new System.NotImplementedException();
+            },
+            tryGetValue: function (key, value) {
+                throw new System.NotImplementedException();
+            },
+            getOrCreateValue: function (key) {
+                throw new System.NotImplementedException();
+            },
+            getValue: function (key, createValueCallback) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    // @source exceptionDispatchInfo.js
+
+    Bridge.define("System.Runtime.ExceptionServices.ExceptionDispatchInfo", {
+        statics: {
+            methods: {
+                capture: function (source) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            SourceException: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        methods: {
+            throw: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source gCHandle.js
+
+    Bridge.define("System.Runtime.InteropServices.GCHandle", {
+        $kind: "struct",
+        statics: {
+            methods: {
+                alloc: function (value) {
+                    throw new System.NotImplementedException();
+                },
+                alloc$1: function (value, type) {
+                    throw new System.NotImplementedException();
+                },
+                fromIntPtr: function (value) {
+                    throw new System.NotImplementedException();
+                },
+                toIntPtr: function (value) {
+                    throw new System.NotImplementedException();
+                },
+                op_Explicit: function (value) {
+                    throw new System.NotImplementedException();
+                },
+                op_Explicit$1: function (value) {
+                    throw new System.NotImplementedException();
+                },
+                op_Equality: function (a, b) {
+                    throw new System.NotImplementedException();
+                },
+                op_Inequality: function (a, b) {
+                    throw new System.NotImplementedException();
+                },
+                getDefaultValue: function () { return new System.Runtime.InteropServices.GCHandle(); }
+            }
+        },
+        props: {
+            IsAllocated: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Target: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            addrOfPinnedObject: function () {
+                throw new System.NotImplementedException();
+            },
+            free: function () {
+                throw new System.NotImplementedException();
+            },
+            equals: function (o) {
+                throw new System.NotImplementedException();
+            },
+            getHashCode: function () {
+                throw new System.NotImplementedException();
+            },
+            $clone: function (to) { return this; }
+        }
+    });
+
+    // @source gCHandleType.js
+
+    Bridge.define("System.Runtime.InteropServices.GCHandleType", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Weak: 0,
+                WeakTrackResurrection: 1,
+                Normal: 2,
+                Pinned: 3
+            }
+        }
+    });
+
+    // @source layoutKind.js
+
+    Bridge.define("System.Runtime.InteropServices.LayoutKind", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Sequential: 0,
+                Explicit: 2,
+                Auto: 3
+            }
+        }
+    });
+
+    // @source Marshal.js
+
+Bridge.define("System.Runtime.InteropServices.Marshal", {
+    statics: {
+        methods: {
+            allocHGlobal$1: function (cb) { //from IntPtr
+                throw new System.NotImplementedException();
+            },
+            allocHGlobal: function (cb) {
+                return new System.IntPtr.$ctor1(cb);
+            },
+            freeHGlobal: function (hglobal) {
+                //delete IntPtr, free buffer
+                throw new System.NotImplementedException();
+            },
+            ptrToStringAnsi: function (ptr) {
+                throw new System.NotImplementedException();
+            },
+            ptrToStringAnsi$1: function (ptr, len) {
+                throw new System.NotImplementedException();
+            },
+            ptrToStructure$1: function (ptr, structure) {
+                throw new System.NotImplementedException();
+            },
+            ptrToStructure: function (ptr, structureType) {
+                throw new System.NotImplementedException();
+            },
+            sizeOf: function (structure) {
+                throw new System.NotImplementedException();
+            },
+            sizeOf$1: function (t) {
+                throw new System.NotImplementedException();
+            },
+            copy: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$1: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$3: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$4: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$5: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$15: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$2: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$14: function (source, startIndex, destination, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$6: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$7: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$9: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$10: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$11: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$13: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$8: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            },
+            copy$12: function (source, destination, startIndex, length) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }
+});
+
+    // @source nonSerializedAttribute.js
+
+    Bridge.define("System.Runtime.InteropServices.NonSerializedAttribute", {
+        inherits: [System.Attribute],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                System.Attribute.ctor.call(this);
+            }
+        }
+    });
+
+    // @source structLayoutAttribute.js
+
+    Bridge.define("System.Runtime.InteropServices.StructLayoutAttribute", {
+        inherits: [System.Attribute],
+        fields: {
+            pack: 0,
+            size: 0
+        },
+        props: {
+            Value: {
+                get: function () {
+                    return 0;
+                }
+            }
+        },
+        ctors: {
+            ctor: function (layoutKind) {
+                this.$initialize();
+                System.Attribute.ctor.call(this);
+                return;
+            },
+            $ctor1: function (layoutKind) {
+                this.$initialize();
+                System.Attribute.ctor.call(this);
+                return;
+            }
+        }
+    });
+
+    // @source iDeserializationCallback.js
+
+    Bridge.define("System.Runtime.Serialization.IDeserializationCallback", {
+        $kind: "interface"
+    });
+
+    // @source serializationException.js
+
+    Bridge.define("System.Runtime.Serialization.SerializationException", {
+        inherits: [System.SystemException],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+                System.SystemException.ctor.call(this, "An error occurred during (de)serialization");
+            },
+            $ctor1: function (message) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message);
+            },
+            $ctor2: function (message, innerException) {
+                this.$initialize();
+                System.SystemException.ctor.call(this, message, innerException);
+            }
+        }
+    });
+
+    // @source serializationInfo.js
+
+    Bridge.define("System.Runtime.Serialization.SerializationInfo");
+
+    // @source streamingContext.js
+
+    Bridge.define("System.Runtime.Serialization.StreamingContext", {
+        $kind: "struct",
+        statics: {
+            methods: {
+                getDefaultValue: function () { return new System.Runtime.Serialization.StreamingContext(); }
+            }
+        },
+        methods: {
+            $clone: function (to) { return this; }
+        }
+    });
+
+    // @source eventWaitHandleRights.js
+
+    Bridge.define("System.Security.AccessControl.EventWaitHandleRights", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                Modify: 2,
+                Delete: 65536,
+                ReadPermissions: 131072,
+                ChangePermissions: 262144,
+                TakeOwnership: 524288,
+                Synchronize: 1048576,
+                FullControl: 2031619
+            }
+        }
+    });
+
+    // @source eventWaitHandleSecurity.js
+
+    Bridge.define("System.Security.AccessControl.EventWaitHandleSecurity");
+
+    // @source stringComparer.js
+
+    Bridge.define("System.StringComparer", {
+        inherits: [System.Collections.Generic.IComparer$1(System.String),System.Collections.Generic.IEqualityComparer$1(System.String)],
+        statics: {
+            props: {
+                CurrentCulture: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                CurrentCultureIgnoreCase: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                InvariantCulture: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                InvariantCultureIgnoreCase: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                Ordinal: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                OrdinalIgnoreCase: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            },
+            methods: {
+                create: function (culture, ignoreCase) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            compare$1: function (x, y) {
+                throw new System.NotImplementedException();
+            },
+            equals: function (x, y) {
+                throw new System.NotImplementedException();
+            },
+            getHashCode: function (obj) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source waitHandle.js
+
+    Bridge.define("System.Threading.WaitHandle", {
+        inherits: [System.IDisposable],
+        statics: {
+            fields: {
+                WaitTimeout: 0
+            },
+            ctors: {
+                init: function () {
+                    Object.defineProperty(this, "WaitTimeout", {
+                        get: function() {
+                            return this._WaitTimeout$ === undefined ? (this._WaitTimeout$ = 258) : this._WaitTimeout$;
+                        },
+                        set: function(v) {
+                            this._WaitTimeout$ = v;
+                        }
+                    });
+                }
+            },
+            methods: {
+                waitAll: function (waitHandles) {
+                    throw new System.NotImplementedException();
+                },
+                waitAll$2: function (waitHandles, millisecondsTimeout, exitContext) {
+                    throw new System.NotImplementedException();
+                },
+                waitAll$4: function (waitHandles, timeout, exitContext) {
+                    throw new System.NotImplementedException();
+                },
+                waitAll$1: function (waitHandles, millisecondsTimeout) {
+                    throw new System.NotImplementedException();
+                },
+                waitAll$3: function (waitHandles, timeout) {
+                    throw new System.NotImplementedException();
+                },
+                waitAny: function (waitHandles) {
+                    throw new System.NotImplementedException();
+                },
+                waitAny$2: function (waitHandles, millisecondsTimeout, exitContext) {
+                    throw new System.NotImplementedException();
+                },
+                waitAny$3: function (waitHandles, timeout) {
+                    throw new System.NotImplementedException();
+                },
+                waitAny$1: function (waitHandles, millisecondsTimeout) {
+                    throw new System.NotImplementedException();
+                },
+                waitAny$4: function (waitHandles, timeout, exitContext) {
+                    throw new System.NotImplementedException();
+                },
+                signalAndWait: function (toSignal, toWaitOn) {
+                    throw new System.NotImplementedException();
+                },
+                signalAndWait$1: function (toSignal, toWaitOn, millisecondsTimeout, exitContext) {
+                    throw new System.NotImplementedException();
+                },
+                signalAndWait$2: function (toSignal, toWaitOn, timeout, exitContext) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            close: function () {
+                throw new System.NotImplementedException();
+            },
+            handle: function () {
+                throw new System.NotImplementedException();
+            },
+            waitOne: function () {
+                throw new System.NotImplementedException();
+            },
+            waitOne$2: function (millisecondsTimeout, exitContext) {
+                throw new System.NotImplementedException();
+            },
+            waitOne$1: function (millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            },
+            waitOne$3: function (timeout) {
+                throw new System.NotImplementedException();
+            },
+            waitOne$4: function (timeout, exitContext) {
+                throw new System.NotImplementedException();
+            },
+            checkDisposed: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source eventWaitHandle.js
+
+    Bridge.define("System.Threading.EventWaitHandle", {
+        inherits: [System.Threading.WaitHandle],
+        statics: {
+            methods: {
+                isManualReset: function (mode) {
+                    throw new System.NotImplementedException();
+                },
+                openExisting: function (name) {
+                    throw new System.NotImplementedException();
+                },
+                openExisting$1: function (name, rights) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (initialState, mode) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+            },
+            $ctor1: function (initialState, mode, name) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+            },
+            $ctor2: function (initialState, mode, name, createdNew) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+                throw new System.NotImplementedException();
+            },
+            $ctor3: function (initialState, mode, name, createdNew, eventSecurity) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+                throw new System.NotImplementedException();
+            }
+        },
+        methods: {
+            getAccessControl: function () {
+                throw new System.NotImplementedException();
+            },
+            reset: function () {
+                throw new System.NotImplementedException();
+            },
+            set: function () {
+                throw new System.NotImplementedException();
+            },
+            setAccessControl: function (eventSecurity) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source autoResetEvent.js
+
+    Bridge.define("System.Threading.AutoResetEvent", {
+        inherits: [System.Threading.EventWaitHandle],
+        ctors: {
+            ctor: function (initialState) {
+                this.$initialize();
+                System.Threading.EventWaitHandle.ctor.call(this, initialState, System.Threading.EventResetMode.AutoReset);
+            }
+        }
+    });
+
+    // @source eventResetMode.js
+
+    Bridge.define("System.Threading.EventResetMode", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                AutoReset: 0,
+                ManualReset: 1
+            }
+        }
+    });
+
+    // @source lazyThreadSafetyMode.js
+
+    Bridge.define("System.Threading.LazyThreadSafetyMode", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                None: 0,
+                PublicationOnly: 1,
+                ExecutionAndPublication: 2
+            }
+        }
+    });
+
+    // @source lockRecursionPolicy.js
+
+    Bridge.define("System.Threading.LockRecursionPolicy", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                NoRecursion: 0,
+                SupportsRecursion: 1
+            }
+        }
+    });
+
+    // @source manualResetEventSlim.js
+
+    Bridge.define("System.Threading.ManualResetEventSlim", {
+        inherits: [System.IDisposable],
+        statics: {
+            methods: {
+                checkTimeout: function (timeout) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            IsSet: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            SpinCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            WaitHandle: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function () {
+                System.Threading.ManualResetEventSlim.$ctor2.call(this, false, 10);
+            },
+            $ctor1: function (initialState) {
+                System.Threading.ManualResetEventSlim.$ctor2.call(this, initialState, 10);
+            },
+            $ctor2: function (initialState, spinCount) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            reset: function () {
+                throw new System.NotImplementedException();
+            },
+            set: function () {
+                throw new System.NotImplementedException();
+            },
+            wait$4: function () {
+                throw new System.NotImplementedException();
+            },
+            wait: function (millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            },
+            wait$2: function (timeout) {
+                throw new System.NotImplementedException();
+            },
+            wait$5: function (cancellationToken) {
+                throw new System.NotImplementedException();
+            },
+            wait$1: function (millisecondsTimeout, cancellationToken) {
+                throw new System.NotImplementedException();
+            },
+            wait$3: function (timeout, cancellationToken) {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose$1: function (disposing) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source readerWriterLockSlim.js
+
+    Bridge.define("System.Threading.ReaderWriterLockSlim", {
+        inherits: [System.IDisposable],
+        props: {
+            IsReadLockHeld: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            IsUpgradeableReadLockHeld: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            IsWriteLockHeld: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            RecursionPolicy: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            CurrentReadCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            RecursiveReadCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            RecursiveUpgradeCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            RecursiveWriteCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            WaitingReadCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            WaitingUpgradeCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            WaitingWriteCount: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["dispose", "System$IDisposable$dispose"],
+        ctors: {
+            ctor: function () {
+                System.Threading.ReaderWriterLockSlim.$ctor1.call(this, System.Threading.LockRecursionPolicy.NoRecursion);
+            },
+            $ctor1: function (recursionPolicy) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            enterReadLock: function () {
+                throw new System.NotImplementedException();
+            },
+            tryEnterReadLock$1: function (timeout) {
+                throw new System.NotImplementedException();
+            },
+            tryEnterReadLock: function (millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            },
+            enterWriteLock: function () {
+                throw new System.NotImplementedException();
+            },
+            tryEnterWriteLock$1: function (timeout) {
+                throw new System.NotImplementedException();
+            },
+            tryEnterWriteLock: function (millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            },
+            enterUpgradeableReadLock: function () {
+                throw new System.NotImplementedException();
+            },
+            tryEnterUpgradeableReadLock$1: function (timeout) {
+                throw new System.NotImplementedException();
+            },
+            tryEnterUpgradeableReadLock: function (millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            },
+            exitReadLock: function () {
+                throw new System.NotImplementedException();
+            },
+            exitWriteLock: function () {
+                throw new System.NotImplementedException();
+            },
+            exitUpgradeableReadLock: function () {
+                throw new System.NotImplementedException();
+            },
+            dispose: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source semaphore.js
+
+    Bridge.define("System.Threading.Semaphore", {
+        inherits: [System.Threading.WaitHandle],
+        statics: {
+            methods: {
+                openExisting: function (name) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            $ctor2: function (handle) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+            },
+            ctor: function (initialCount, maximumCount) {
+                System.Threading.Semaphore.$ctor1.call(this, initialCount, maximumCount, null);
+            },
+            $ctor1: function (initialCount, maximumCount, name) {
+                this.$initialize();
+                System.Threading.WaitHandle.ctor.call(this);
+            }
+        },
+        methods: {
+            release: function () {
+                throw new System.NotImplementedException();
+            },
+            release$1: function (releaseCount) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source synchronizationContext.js
+
+    Bridge.define("System.Threading.SynchronizationContext", {
+        statics: {
+            props: {
+                Current: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            },
+            methods: {
+                setSynchronizationContext: function (syncContext) {
+                    throw new System.NotImplementedException();
+                },
+                waitHelper: function (waitHandles, waitAll, millisecondsTimeout) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            },
+            $ctor1: function (context) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            createCopy: function () {
+                throw new System.NotImplementedException();
+            },
+            isWaitNotificationRequired: function () {
+                throw new System.NotImplementedException();
+            },
+            operationCompleted: function () {
+                throw new System.NotImplementedException();
+            },
+            operationStarted: function () {
+                throw new System.NotImplementedException();
+            },
+            post: function (d, state) {
+                throw new System.NotImplementedException();
+            },
+            send: function (d, state) {
+                throw new System.NotImplementedException();
+            },
+            setWaitNotificationRequired: function () {
+                throw new System.NotImplementedException();
+            },
+            wait: function (waitHandles, waitAll, millisecondsTimeout) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source taskScheduler.js
+
+    Bridge.define("System.Threading.Tasks.TaskScheduler", {
+        statics: {
+            props: {
+                Default: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    }
+                },
+                Current: {
+                    get: function () {
+                        throw new System.NotImplementedException();
+                    },
+                    set: function (value) {
+                        throw new System.NotImplementedException();
+                    }
+                }
+            },
+            methods: {
+                fromCurrentSynchronizationContext: function () {
+                    throw new System.NotImplementedException();
+                },
+                fireUnobservedEvent: function (task, e) {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        props: {
+            Id: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            MaximumConcurrencyLevel: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function () {
+                this.$initialize();
+            }
+        },
+        methods: {
+            tryDequeue: function (task) {
+                throw new System.NotImplementedException();
+            },
+            tryExecuteTask: function (task) {
+                throw new System.NotImplementedException();
+            },
+            runInline: function (task, taskWasPreviouslyQueued) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source synchronizationContextScheduler.js
+
+    Bridge.define("System.Threading.Tasks.SynchronizationContextScheduler", {
+        inherits: [System.Threading.Tasks.TaskScheduler],
+        props: {
+            MaximumConcurrencyLevel: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (ctx) {
+                this.$initialize();
+                System.Threading.Tasks.TaskScheduler.ctor.call(this);
+            }
+        },
+        methods: {
+            queueTask: function (task) { },
+            taskLaunchWrapper: function (obj) { },
+            getScheduledTasks: function () {
+                throw new System.NotImplementedException();
+            },
+            tryDequeue: function (task) {
+                throw new System.NotImplementedException();
+            },
+            tryExecuteTaskInline: function (task, taskWasPreviouslyQueued) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source taskContinuationOptions.js
+
+    Bridge.define("System.Threading.Tasks.TaskContinuationOptions", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                None: 0,
+                PreferFairness: 1,
+                LongRunning: 2,
+                AttachedToParent: 4,
+                DenyChildAttach: 8,
+                HideScheduler: 16,
+                LazyCancellation: 32,
+                NotOnRanToCompletion: 65536,
+                NotOnFaulted: 131072,
+                NotOnCanceled: 262144,
+                OnlyOnRanToCompletion: 393216,
+                OnlyOnFaulted: 327680,
+                OnlyOnCanceled: 196608,
+                ExecuteSynchronously: 524288
+            }
+        }
+    });
+
+    // @source taskCreationOptions.js
+
+    Bridge.define("System.Threading.Tasks.TaskCreationOptions", {
+        $kind: "enum",
+        statics: {
+            fields: {
+                None: 0,
+                PreferFairness: 1,
+                LongRunning: 2,
+                AttachedToParent: 4,
+                DenyChildAttach: 8,
+                HideScheduler: 16
+            }
+        }
+    });
+
+    // @source taskSchedulerDebuggerView.js
+
+    Bridge.define("System.Threading.Tasks.TaskScheduler.TaskSchedulerDebuggerView", {
+        props: {
+            ScheduledTasks: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (scheduler) {
+                this.$initialize();
+            }
+        }
+    });
+
+    // @source unobservedTaskExceptionEventArgs.js
+
+    Bridge.define("System.Threading.Tasks.UnobservedTaskExceptionEventArgs", {
+        props: {
+            Exception: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Observed: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        ctors: {
+            ctor: function (exception) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            setObserved: function () {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source weakReference.js
+
+    Bridge.define("System.WeakReference$1", function (T) { return {
+        ctors: {
+            ctor: function (target) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            setTarget: function (target) {
+                throw new System.NotImplementedException();
+            },
+            tryGetTarget: function (target) {
+                throw new System.NotImplementedException();
+            }
+        }
+    }; });
+
+    Bridge.define("System.WeakReference", {
+        inherits: [System.Runtime.Serialization.ISerializable],
+        props: {
+            IsAlive: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            },
+            Target: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                },
+                set: function (value) {
+                    throw new System.NotImplementedException();
+                }
+            },
+            TrackResurrection: {
+                get: function () {
+                    throw new System.NotImplementedException();
+                }
+            }
+        },
+        alias: ["getObjectData", "System$Runtime$Serialization$ISerializable$getObjectData"],
+        ctors: {
+            ctor: function (target) {
+                System.WeakReference.$ctor1.call(this, target, false);
+            },
+            $ctor1: function (target, trackResurrection) {
+                this.$initialize();
+            },
+            $ctor2: function (info, context) {
+                this.$initialize();
+            }
+        },
+        methods: {
+            getObjectData: function (info, context) {
+                throw new System.NotImplementedException();
+            }
+        }
+    });
+
+    // @source iNotifyCompletion.js
+
+    Bridge.define("System.Runtime.CompilerServices.INotifyCompletion", {
+        $kind: "interface"
+    });
+
+    // @source iCriticalNotifyCompletion.js
+
+    Bridge.define("System.Runtime.CompilerServices.ICriticalNotifyCompletion", {
+        inherits: [System.Runtime.CompilerServices.INotifyCompletion],
+        $kind: "interface"
+    });
+
+    // @source interlocked.js
+
+    Bridge.define("System.Threading.Interlocked", {
+        statics: {
+            methods: {
+                memoryBarrier: function () { }
             }
         }
     });

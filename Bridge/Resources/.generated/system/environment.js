@@ -90,7 +90,7 @@
                     this.ExitCode = 0;
                 },
                 ctor: function () {
-                    System.Environment.variables = new (System.Collections.Generic.Dictionary$2(System.String,System.String))();
+                    System.Environment.variables = new (System.Collections.Generic.Dictionary$2(System.String,System.String)).ctor();
                     System.Environment.patchDictionary(System.Environment.variables);
                 }
             },
@@ -177,7 +177,7 @@
                     return System.Environment.getEnvironmentVariable(variable);
                 },
                 getEnvironmentVariables: function () {
-                    return System.Environment.patchDictionary(new (System.Collections.Generic.Dictionary$2(System.String,System.String))(System.Environment.variables));
+                    return System.Environment.patchDictionary(new (System.Collections.Generic.Dictionary$2(System.String,System.String)).ctor(System.Environment.variables));
                 },
                 getEnvironmentVariables$1: function (target) {
                     return System.Environment.getEnvironmentVariables();

@@ -14,6 +14,8 @@ namespace Bridge.Contract
 
         IReferenceInterceptor OnReference(IAbstractEmitterBlock block, MemberReferenceExpression expression, MemberResolveResult resolveResult);
 
+        IReferenceInterceptor OnReference(IAbstractEmitterBlock block, PointerReferenceExpression expression, MemberResolveResult resolveResult);
+
         bool HasConstructorInjectors(Bridge.Contract.IConstructorBlock constructorBlock);
 
         System.Collections.Generic.IEnumerable<Bridge.Contract.IPlugin> Parts

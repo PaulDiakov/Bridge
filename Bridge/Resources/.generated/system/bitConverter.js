@@ -6,8 +6,22 @@
             },
             ctors: {
                 init: function () {
-                    this.isLittleEndian = System.BitConverter.getIsLittleEndian();
-                    this.arg_ArrayPlusOffTooSmall = "Destination array is not long enough to copy all the items in the collection. Check array index and length.";
+                    Object.defineProperty(this, "isLittleEndian", {
+                        get: function() {
+                            return this._isLittleEndian$ === undefined ? (this._isLittleEndian$ = System.BitConverter.getIsLittleEndian()) : this._isLittleEndian$;
+                        },
+                        set: function(v) {
+                            this._isLittleEndian$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "arg_ArrayPlusOffTooSmall", {
+                        get: function() {
+                            return this._arg_ArrayPlusOffTooSmall$ === undefined ? (this._arg_ArrayPlusOffTooSmall$ = "Destination array is not long enough to copy all the items in the collection. Check array index and length.") : this._arg_ArrayPlusOffTooSmall$;
+                        },
+                        set: function(v) {
+                            this._arg_ArrayPlusOffTooSmall$ = v;
+                        }
+                    });
                 }
             },
             methods: {

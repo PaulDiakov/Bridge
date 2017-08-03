@@ -496,6 +496,11 @@ namespace Bridge.Contract
                         }
                     }
 
+                    if (resolveResult is MemberResolveResult m && m.Member is DefaultResolvedMethod)
+                    {
+                        return;
+                    }
+
                     Helpers.WriteClone(block, insertPosition, nullable);
                 }
             }
@@ -924,10 +929,12 @@ namespace Bridge.Contract
                     return "op_Decrement";
 
                 case UnaryOperatorType.Dereference:
-                    return null;
+                    //FIXME
+                    return "op_Dereference";
 
                 case UnaryOperatorType.AddressOf:
-                    return null;
+                    //FIXME
+                    return "op_AddressOf";
 
                 case UnaryOperatorType.Await:
                     return null;

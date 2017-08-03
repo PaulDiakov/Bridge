@@ -379,6 +379,11 @@ namespace System
             get;
         }
 
+        public extern bool IsPrimitive
+        {
+            get;
+        }
+
         /// <summary>
         /// Gets a value indicating whether the Type is nested and visible only within its own family.
         /// </summary>

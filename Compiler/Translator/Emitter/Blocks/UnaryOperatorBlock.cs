@@ -289,6 +289,44 @@ namespace Bridge.Translator
                         }
                         break;
 
+                    case UnaryOperatorType.Dereference:
+                        var expression = unaryOperatorExpression.Expression;
+                        if (expression is ParenthesizedExpression parenthesizedExpression)
+                        {
+                            expression = parenthesizedExpression.Expression;
+                        }
+
+                        expression.AcceptVisitor(this.Emitter);
+
+                        if (!(unaryOperatorExpression.Parent is AssignmentExpression assignmentExpression)
+                            || assignmentExpression.Left != unaryOperatorExpression)
+                        {
+                            this.Write(JS.JsPtr.GET);
+                            this.WriteOpenParentheses();
+                            this.WriteCloseParentheses();
+                        }
+                        break;
+
+                    case UnaryOperatorType.AddressOf:
+                        this.Write("System.JsPtr.getPointer");
+                        this.WriteOpenParentheses();
+
+                        if (unaryOperatorExpression.Expression is IndexerExpression indexerExpression)
+                        {
+                            var targetrr = this.Emitter.Resolver.ResolveNode(indexerExpression.Target, this.Emitter);
+
+                            indexerExpression.Target.AcceptVisitor(this.Emitter);
+                            this.WriteComma();
+                            indexerExpression.Arguments.First().AcceptVisitor(this.Emitter);
+                        }
+                        else
+                        {
+                            unaryOperatorExpression.Expression.AcceptVisitor(this.Emitter);
+                        }
+
+                        this.WriteCloseParentheses();
+                        break;
+
                     case UnaryOperatorType.Plus:
                         if (nullable)
                         {

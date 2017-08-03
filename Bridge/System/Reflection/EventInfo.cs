@@ -26,5 +26,13 @@ namespace System.Reflection
         public extern void RemoveEventHandler(object target, Delegate handler);
 
         internal extern EventInfo();
+
+        public virtual Type EventHandlerType
+        {
+            get
+            {
+                return default(Type);
+            }
+        }
     }
 }

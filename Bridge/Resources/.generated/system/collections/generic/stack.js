@@ -6,7 +6,14 @@
             },
             ctors: {
                 init: function () {
-                    this.DefaultCapacity = 4;
+                    Object.defineProperty(this, "DefaultCapacity", {
+                        get: function() {
+                            return this._DefaultCapacity$ === undefined ? (this._DefaultCapacity$ = 4) : this._DefaultCapacity$;
+                        },
+                        set: function(v) {
+                            this._DefaultCapacity$ = v;
+                        }
+                    });
                 }
             }
         },

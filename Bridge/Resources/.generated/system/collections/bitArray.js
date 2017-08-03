@@ -9,10 +9,38 @@
             },
             ctors: {
                 init: function () {
-                    this.BitsPerInt32 = 32;
-                    this.BytesPerInt32 = 4;
-                    this.BitsPerByte = 8;
-                    this._ShrinkThreshold = 256;
+                    Object.defineProperty(this, "BitsPerInt32", {
+                        get: function() {
+                            return this._BitsPerInt32$ === undefined ? (this._BitsPerInt32$ = 32) : this._BitsPerInt32$;
+                        },
+                        set: function(v) {
+                            this._BitsPerInt32$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "BytesPerInt32", {
+                        get: function() {
+                            return this._BytesPerInt32$ === undefined ? (this._BytesPerInt32$ = 4) : this._BytesPerInt32$;
+                        },
+                        set: function(v) {
+                            this._BytesPerInt32$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "BitsPerByte", {
+                        get: function() {
+                            return this._BitsPerByte$ === undefined ? (this._BitsPerByte$ = 8) : this._BitsPerByte$;
+                        },
+                        set: function(v) {
+                            this._BitsPerByte$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "_ShrinkThreshold", {
+                        get: function() {
+                            return this.__ShrinkThreshold$ === undefined ? (this.__ShrinkThreshold$ = 256) : this.__ShrinkThreshold$;
+                        },
+                        set: function(v) {
+                            this.__ShrinkThreshold$ = v;
+                        }
+                    });
                 }
             },
             methods: {

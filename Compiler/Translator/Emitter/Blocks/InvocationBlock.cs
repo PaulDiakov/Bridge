@@ -124,7 +124,7 @@ namespace Bridge.Translator
             var csharpInvocation = targetResolve as CSharpInvocationResolveResult;
             MemberReferenceExpression targetMember = invocationExpression.Target as MemberReferenceExpression;
             bool isObjectLiteral = csharpInvocation != null && csharpInvocation.Member.DeclaringTypeDefinition != null ? this.Emitter.Validator.IsObjectLiteral(csharpInvocation.Member.DeclaringTypeDefinition) : false;
-
+            
             var interceptor = this.Emitter.Plugins.OnInvocation(this, this.InvocationExpression, targetResolve as InvocationResolveResult);
 
             if (interceptor.Cancel)

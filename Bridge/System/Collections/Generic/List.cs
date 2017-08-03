@@ -152,5 +152,10 @@ namespace System.Collections.Generic
         extern void IList.Insert(int index, object item);
 
         extern bool IList.Remove(object item);
+
+        public bool Exists(Predicate<T> match)
+        {
+            return default(bool);
+        }
     }
 }

@@ -1345,7 +1345,7 @@ namespace Bridge.Translator
             bool isSimple = !isArray || (targetrr is ThisResolveResult || targetrr is LocalResolveResult ||
                             targetrr is ConstantResolveResult || isField);
             string targetVar = null;
-
+            
             if (!isSimple)
             {
                 this.WriteOpenParentheses();
@@ -1389,13 +1389,15 @@ namespace Bridge.Translator
             }
             else
             {
+                bool isPointerTarget = targetrr.Type.Kind == TypeKind.Pointer;
+                
                 this.Emitter.IsAssignment = false;
                 this.Emitter.IsUnaryAccessor = false;
                 if (this.isRefArg)
                 {
                     this.WriteComma();
                 }
-                else
+                else if (!isPointerTarget)
                 {
                     this.WriteOpenBracket();
                     if (isArray)
@@ -1405,9 +1407,22 @@ namespace Bridge.Translator
                     }
                 }
 
-                index.AcceptVisitor(this.Emitter);
+                if (isPointerTarget)
+                {
+                    if (!(indexerExpression.Parent is AssignmentExpression))
+                    {
+                        this.Write(JS.JsPtr.GET_ELEMENT);
+                        this.WriteOpenParentheses();
+                        index.AcceptVisitor(this.Emitter);
+                        this.WriteCloseParentheses();
+                    }
+                }
+                else
+                {
+                    index.AcceptVisitor(this.Emitter);
+                }
 
-                if (!this.isRefArg)
+                if (!this.isRefArg && !isPointerTarget)
                 {
                     if (isArray)
                     {

@@ -7,8 +7,22 @@
             },
             ctors: {
                 init: function () {
-                    this.Lower31BitMask = 2147483647;
-                    this.ShrinkThreshold = 3;
+                    Object.defineProperty(this, "Lower31BitMask", {
+                        get: function() {
+                            return this._Lower31BitMask$ === undefined ? (this._Lower31BitMask$ = 2147483647) : this._Lower31BitMask$;
+                        },
+                        set: function(v) {
+                            this._Lower31BitMask$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "ShrinkThreshold", {
+                        get: function() {
+                            return this._ShrinkThreshold$ === undefined ? (this._ShrinkThreshold$ = 3) : this._ShrinkThreshold$;
+                        },
+                        set: function(v) {
+                            this._ShrinkThreshold$ = v;
+                        }
+                    });
                 }
             },
             methods: {

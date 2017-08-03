@@ -1,4 +1,5 @@
 using Bridge;
+using System.IO;
 
 namespace System.Reflection
 {
@@ -14,6 +15,16 @@ namespace System.Reflection
         public extern string FullName
         {
             get;
+        }
+
+        public virtual AssemblyName GetName(Boolean copiedName)
+        {
+            return default(AssemblyName);
+        }
+
+        public virtual AssemblyName GetName()
+        {
+            return default(AssemblyName);
         }
 
         /// <summary>
@@ -112,5 +123,10 @@ namespace System.Reflection
         public extern byte[] GetManifestResourceData(string name);
 
         public extern byte[] GetManifestResourceData(Type type, string name);
+
+        public virtual Stream GetManifestResourceStream(string name)
+        {
+            return default(Stream);
+        }
     }
 }

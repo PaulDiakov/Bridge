@@ -153,6 +153,27 @@ namespace Bridge.Translator
             var rightResolverResult = this.Emitter.Resolver.ResolveNode(assignmentExpression.Right, this.Emitter);
             var rr = this.Emitter.Resolver.ResolveNode(assignmentExpression, this.Emitter);
             var orr = rr as OperatorResolveResult;
+            bool isPointerLeft = leftResolverResult.Type.Kind == TypeKind.Pointer;
+            bool isPointerRight = rightResolverResult.Type.Kind == TypeKind.Pointer;
+
+            if (assignmentExpression.Left is UnaryOperatorExpression unaryOperatorExpression)
+            {
+                if (unaryOperatorExpression.Operator == UnaryOperatorType.Dereference)
+                {
+                    isPointerLeft = true;
+                    isPointerRight = false;
+                }
+            }
+
+            if (assignmentExpression.Left is IndexerExpression iExpression)
+            {
+                var targetrr = this.Emitter.Resolver.ResolveNode(iExpression.Target, this.Emitter);
+                isPointerLeft = targetrr.Type.Kind == TypeKind.Pointer;
+            } else if (!(assignmentExpression.Right is BinaryOperatorExpression) && isPointerLeft == isPointerRight)
+            {
+                isPointerLeft = isPointerRight = false;
+            }
+
             bool isDecimal = Helpers.IsDecimalType(rr.Type, this.Emitter.Resolver);
             bool isLong = Helpers.Is64Type(rr.Type, this.Emitter.Resolver);
             var expectedType = this.Emitter.Resolver.Resolver.GetExpectedType(assignmentExpression);
@@ -413,7 +434,10 @@ namespace Bridge.Translator
                     this.Emitter.IsAssignment = false;
                 }
 
-                this.AcceptLeftExpression(assignmentExpression.Left, memberTargetrr);
+                if (!isPointerLeft || !isPointerRight)
+                {
+                    this.AcceptLeftExpression(assignmentExpression.Left, memberTargetrr);
+                }
 
                 if (delegateAssigment)
                 {
@@ -429,7 +453,7 @@ namespace Bridge.Translator
             this.Emitter.AssignmentType = oldAssigmentType;
             this.Emitter.IsAssignment = oldAssigment;
 
-            if (this.Emitter.Writers.Count == initCount && !delegateAssigment && !thisAssignment)
+            if (this.Emitter.Writers.Count == initCount && !delegateAssigment && !thisAssignment && !isPointerLeft)
             {
                 this.WriteSpace();
             }
@@ -526,7 +550,7 @@ namespace Bridge.Translator
 
             if (!delegateAssigment)
             {
-                if (!special)
+                if (!special && !isPointerLeft)
                 {
                     switch (assignmentExpression.Operator)
                     {
@@ -652,7 +676,47 @@ namespace Bridge.Translator
 
                 if (this.Emitter.Writers.Count == initCount && !thisAssignment && !special)
                 {
-                    this.Write("= ");
+                    if (isPointerLeft)
+                    {
+                        if (!isPointerRight)
+                        {
+                            switch (assignmentExpression.Operator)
+                            {
+                                case AssignmentOperatorType.Assign:
+                                    if (assignmentExpression.Left is IndexerExpression indexerExpression)
+                                    {
+                                        this.Write(JS.JsPtr.SET_ELEMENT);
+                                        this.WriteOpenParentheses();
+                                        indexerExpression.Arguments.First().AcceptVisitor(this.Emitter);
+                                        this.WriteComma();
+                                    }
+                                    else
+                                    {
+                                        this.Write(JS.JsPtr.SET);
+                                        this.WriteOpenParentheses();
+                                    }
+                                    break;
+
+                                case AssignmentOperatorType.Add:
+                                    this.Write(JS.JsPtr.ADD);
+                                    this.WriteOpenParentheses();
+                                    break;
+
+                                case AssignmentOperatorType.Subtract:
+                                    this.Write(JS.JsPtr.SUB);
+                                    this.WriteOpenParentheses();
+                                    break;
+
+                                default:
+                                    throw new EmitterException(assignmentExpression,
+                                        "Unsupported assignment operator: " + assignmentExpression.Operator.ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.Write("= ");
+                    }
                 }
             }
             else if (!isEvent)
@@ -737,6 +801,13 @@ namespace Bridge.Translator
             if (delegateAssigment)
             {
                 this.WriteCloseParentheses();
+            }
+            else if (isPointerLeft && this.Emitter.Writers.Count == initCount && !thisAssignment && !special)
+            {
+                if (!isPointerRight)
+                {
+                    this.WriteCloseParentheses();
+                }
             }
 
             if (needTempVar)

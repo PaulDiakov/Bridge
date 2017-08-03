@@ -7,8 +7,22 @@
             },
             ctors: {
                 init: function () {
-                    this.separatorsArray = 46;
-                    this.ZERO_CHAR_VALUE = 48;
+                    Object.defineProperty(this, "separatorsArray", {
+                        get: function() {
+                            return this._separatorsArray$ === undefined ? (this._separatorsArray$ = 46) : this._separatorsArray$;
+                        },
+                        set: function(v) {
+                            this._separatorsArray$ = v;
+                        }
+                    });
+                    Object.defineProperty(this, "ZERO_CHAR_VALUE", {
+                        get: function() {
+                            return this._ZERO_CHAR_VALUE$ === undefined ? (this._ZERO_CHAR_VALUE$ = 48) : this._ZERO_CHAR_VALUE$;
+                        },
+                        set: function(v) {
+                            this._ZERO_CHAR_VALUE$ = v;
+                        }
+                    });
                 }
             },
             methods: {

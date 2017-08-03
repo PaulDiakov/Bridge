@@ -554,6 +554,27 @@ namespace Bridge.Translator
             return interceptor;
         }
 
+        public IReferenceInterceptor OnReference(IAbstractEmitterBlock block, PointerReferenceExpression expression, MemberResolveResult resolveResult)
+        {
+            ReferenceInterceptor interceptor = this.GetReferenceInterceptor();
+
+            interceptor.Block = block;
+            //FIXME
+            //interceptor.Expression = expression;
+            interceptor.ResolveResult = resolveResult;
+
+            foreach (var plugin in this.Parts)
+            {
+                plugin.OnReference(interceptor);
+                if (interceptor.Cancel)
+                {
+                    return interceptor;
+                }
+            }
+
+            return interceptor;
+        }
+
         public bool HasConstructorInjectors(IConstructorBlock constructorBlock)
         {
             foreach (var plugin in this.Parts)
